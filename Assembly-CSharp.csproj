@@ -36,7 +36,8 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Player.blend" />
+     <Compile Include="Assets\Enumerations.cs" />
+     <Compile Include="Assets\Player.cs" />
     <Reference Include="UnityEngine">
         <HintPath>/Applications/Unity/Hub/Editor/2020.3.17f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -658,8 +659,14 @@
     <Reference Include="Unity.Mathematics">
         <HintPath>/Users/ishaankhurana/Documents/CS576/Laser Tag/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
     </Reference>
+    <Reference Include="Cinemachine">
+        <HintPath>/Users/ishaankhurana/Documents/CS576/Laser Tag/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Burst">
         <HintPath>/Users/ishaankhurana/Documents/CS576/Laser Tag/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
+    </Reference>
+    <Reference Include="com.unity.cinemachine.editor">
+        <HintPath>/Users/ishaankhurana/Documents/CS576/Laser Tag/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
         <HintPath>/Users/ishaankhurana/Documents/CS576/Laser Tag/Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
@@ -676,12 +683,10 @@
     <Reference Include="Unity.Animation.Rigging.Editor">
         <HintPath>/Users/ishaankhurana/Documents/CS576/Laser Tag/Library/ScriptAssemblies/Unity.Animation.Rigging.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="com.unity.cinemachine.editor">
-        <HintPath>/Users/ishaankhurana/Documents/CS576/Laser Tag/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Cinemachine">
-        <HintPath>/Users/ishaankhurana/Documents/CS576/Laser Tag/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
-    </Reference>
+    <Compile Include="Assets\Team.cs" />
+    <Compile Include="Assets\Constants.cs" />
+    <Compile Include="Assets\AI.cs" />
+    <Compile Include="Assets\Human.cs" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
