@@ -38,6 +38,10 @@
   <ItemGroup>
      <Compile Include="Assets\Enumerations.cs" />
      <Compile Include="Assets\Player.cs" />
+     <Compile Include="Assets\Team.cs" />
+     <Compile Include="Assets\Human.cs" />
+     <Compile Include="Assets\Constants.cs" />
+     <Compile Include="Assets\AI.cs" />
     <Reference Include="UnityEngine">
         <HintPath>/Applications/Unity/Hub/Editor/2020.3.17f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -683,10 +687,6 @@
     <Reference Include="Unity.Animation.Rigging.Editor">
         <HintPath>/Users/ishaankhurana/Documents/CS576/Laser Tag/Library/ScriptAssemblies/Unity.Animation.Rigging.Editor.dll</HintPath>
     </Reference>
-    <Compile Include="Assets\Team.cs" />
-    <Compile Include="Assets\Constants.cs" />
-    <Compile Include="Assets\AI.cs" />
-    <Compile Include="Assets\Human.cs" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

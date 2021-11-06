@@ -1,3 +1,9 @@
+public enum ANIMATION
+{
+    Idle,
+    WalkForward
+}
+
 public enum LIGHT_TYPE
 {
     SHOT,

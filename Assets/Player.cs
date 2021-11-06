@@ -3,6 +3,8 @@ using UnityEngine;
 
 public abstract class Player : MonoBehaviour
 {
+    protected Animator AnimationController;
+    protected CharacterController CharacterController;
     protected int Energy { get; set; }
     protected int Id { get; set; }
     protected bool IsDeactivated { get; set; }
@@ -14,6 +16,7 @@ public abstract class Player : MonoBehaviour
     protected long Score { get; set; }
     protected Team Team { get; set; }
     protected PLAYER_TYPE PlayerType { get; set; }
+    protected float Velocity { get; set; }
 
     public void DecreaseEnergy()
     {
@@ -48,9 +51,12 @@ public abstract class Player : MonoBehaviour
 
     public void Start()
     {
+        AnimationController = GetComponent<Animator>();
+        CharacterController = GetComponent<CharacterController>();
         Energy = Constants.Energy;
         Pulses = Constants.Pulses;
         Score = 0;
+        Velocity = 0.0f;
     }
 
 }
