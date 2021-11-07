@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Team
 {
-    private TEAM_COLOR TeamColor { get; set; }
+    public TEAM_COLOR TeamColor { get; set; }
     private int Ceiling { get; set; }
     private List<Player> Players { get; set; }
     private long Score { get; set; }

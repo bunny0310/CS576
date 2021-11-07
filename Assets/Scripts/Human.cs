@@ -16,7 +16,7 @@ public class Human : Player
         var walkForwardsIncrement = Mathf.Abs(Velocity) < 3 ? 0.3f : 0f;
         var mousePosition = Input.mousePosition;
         mousePosition.z = 30;
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        Vector3 worldPosition = Camera.ScreenToWorldPoint(mousePosition);
         worldPosition.z = 30;
         HeadTarget.transform.position = new Vector3(worldPosition.x, worldPosition.y, transform.position.z);
 

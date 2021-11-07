@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class Player : MonoBehaviour
 {
     protected Animator AnimationController;
+    protected Camera Camera;
     protected CharacterController CharacterController;
     protected int Energy { get; set; }
     protected int Id { get; set; }
@@ -14,9 +15,11 @@ public abstract class Player : MonoBehaviour
     protected Vector3 Position { get; set; }
     protected int Pulses { get; set; }
     protected long Score { get; set; }
-    protected Team Team { get; set; }
+    public Team Team { get; set; }
     protected PLAYER_TYPE PlayerType { get; set; }
     protected float Velocity { get; set; }
+    protected Light VestLightFront { get; set; }
+    protected Light VestLightBack { get; set; }
 
     public void DecreaseEnergy()
     {
@@ -52,11 +55,25 @@ public abstract class Player : MonoBehaviour
     public void Start()
     {
         AnimationController = GetComponent<Animator>();
+        Camera = GetComponentInChildren<Camera>();
         CharacterController = GetComponent<CharacterController>();
         Energy = Constants.Energy;
         Pulses = Constants.Pulses;
         Score = 0;
         Velocity = 0.0f;
+        VestLightFront = GameObject.Find($"/{gameObject.name}/VestLightFront").GetComponent<Light>();
+        VestLightBack = GameObject.Find($"/{gameObject.name}/VestLightBack").GetComponent<Light>();
+        var teamColor = Team.TeamColor;
+        Color color = Color.black;
+        if (teamColor == TEAM_COLOR.BLUE)
+        {
+            color = Color.blue;
+        }
+        else
+        {
+            color = Color.red;
+        }
+        VestLightBack.color = color;
     }
 
 }
