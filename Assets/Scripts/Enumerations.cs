@@ -15,9 +15,3 @@ public enum PLAYER_TYPE
     AI,
     HUMAN
 }
-
-public enum TEAM_COLOR
-{
-    BLUE,
-    RED
-}

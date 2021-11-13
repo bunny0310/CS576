@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Team
 {
-    public TEAM_COLOR TeamColor { get; set; }
+    public Color TeamColor { get; set; }
     private int Ceiling { get; set; }
     private List<Player> Players { get; set; }
     private long Score { get; set; }
 
-    public Team(int ceiling, TEAM_COLOR teamColor)
+    public Team(int ceiling, Color teamColor)
     {
         this.Ceiling = ceiling;
         this.TeamColor = teamColor;

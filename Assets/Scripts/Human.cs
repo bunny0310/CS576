@@ -7,11 +7,13 @@ public class Human : Player
     public new void Start()
     {
         base.Start();
+        gameObject.name = Enum.GetName(typeof(PLAYER_TYPE), PLAYER_TYPE.HUMAN);
         HeadTarget = GameObject.Find("HeadTarget");
     }
 
-    public void Update()
+    public new void Update()
     {
+        base.Update();
         // IMPLEMENT ME - Ishaan & Dhruv
         var walkForwardsIncrement = Mathf.Abs(Velocity) < 3 ? 0.3f : 0f;
         var mousePosition = Input.mousePosition;
@@ -19,6 +21,7 @@ public class Human : Player
         Vector3 worldPosition = Camera.ScreenToWorldPoint(mousePosition);
         worldPosition.z = 30;
         HeadTarget.transform.position = new Vector3(worldPosition.x, worldPosition.y, transform.position.z);
+        // GunPoint.transform.position = new Vector3(worldPosition.x, worldPosition.y, transform.position.z);
 
         if (Input.GetKey(KeyCode.UpArrow))
         {
@@ -28,6 +31,11 @@ public class Human : Player
         {
             AnimationController.SetInteger("state", (int)ANIMATION.Idle);
             Velocity = 0;
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Shoot();
         }
 
         GetComponent<CapsuleCollider>().center = new Vector3(GetComponent<CapsuleCollider>().center.x, 0.9f, GetComponent<CapsuleCollider>().center.z);

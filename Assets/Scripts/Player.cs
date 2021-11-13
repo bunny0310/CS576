@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public abstract class Player : MonoBehaviour
@@ -7,6 +8,7 @@ public abstract class Player : MonoBehaviour
     protected Camera Camera;
     protected CharacterController CharacterController;
     protected int Energy { get; set; }
+    protected GameObject GunPoint { get; set; }
     protected int Id { get; set; }
     protected bool IsDeactivated { get; set; }
     protected LIGHT_TYPE LightType { get; set; }
@@ -18,11 +20,20 @@ public abstract class Player : MonoBehaviour
     public Team Team { get; set; }
     protected PLAYER_TYPE PlayerType { get; set; }
     protected float Velocity { get; set; }
-    protected Light VestLightFront { get; set; }
-    protected Light VestLightBack { get; set; }
+    protected Color VestColor { get; set; }
+    private bool VestPutOn { get; set; }
+    public Light VestLightFront { get; set; }
+    public Light VestLightBack { get; set; }
 
+    public void ChangeVestColor(Color color)
+    {
+        VestColor = color;
+        VestLightBack.color = VestColor;
+        VestLightFront.color = VestColor;
+    }
     public void DecreaseEnergy()
     {
+
         // IMPLEMENT ME
     }
 
@@ -31,9 +42,18 @@ public abstract class Player : MonoBehaviour
         // IMPLEMENT ME
     }
 
-    public void OmitLight()
+    public void IncreaseScore(int score)
+    {
+        Score += score;
+        Team.UpdateTeamScore(score);
+    }
+
+    public IEnumerator OmitLight()
     {
         // IMPLEMENT ME
+        ChangeVestColor(Constants.ShotColor);
+        yield return new WaitForSeconds(0.5f);
+        ChangeVestColor(Team.TeamColor);
     }
 
     protected bool OnChargeStation()
@@ -49,7 +69,22 @@ public abstract class Player : MonoBehaviour
 
     public void Shoot()
     {
-        // IMPLEMENT ME
+        // TO DO: Fix raycast, always pointing upwards
+        if (IsDeactivated)
+        {
+            return;
+        }
+        RaycastHit hit;
+        Physics.Raycast(GunPoint.transform.position, GunPoint.transform.forward, out hit, Mathf.Infinity);
+        Debug.DrawRay(GunPoint.transform.position, (GunPoint.transform.forward) * 100, Color.green, 100, false);
+        Debug.Log(hit.collider.gameObject.name); ;
+        if (hit.collider != null && hit.collider.gameObject.name.Equals(Enum.GetName(typeof(PLAYER_TYPE), PLAYER_TYPE.AI))) {
+            var AIObject = hit.collider.gameObject.GetComponent<AI>();
+            Time.timeScale = 1.0f;
+            StartCoroutine(AIObject.OmitLight());
+            AIObject.DecreasePulses();
+
+        }
     }
 
     public void Start()
@@ -58,22 +93,23 @@ public abstract class Player : MonoBehaviour
         Camera = GetComponentInChildren<Camera>();
         CharacterController = GetComponent<CharacterController>();
         Energy = Constants.Energy;
+        GunPoint = GameObject.Find($"/{gameObject.name}/GunPoint");
+        Debug.Log(GunPoint.transform.position);
         Pulses = Constants.Pulses;
         Score = 0;
         Velocity = 0.0f;
         VestLightFront = GameObject.Find($"/{gameObject.name}/VestLightFront").GetComponent<Light>();
         VestLightBack = GameObject.Find($"/{gameObject.name}/VestLightBack").GetComponent<Light>();
-        var teamColor = Team.TeamColor;
-        Color color = Color.black;
-        if (teamColor == TEAM_COLOR.BLUE)
+        VestPutOn = false;
+    }
+
+    public void Update()
+    {
+        if (Team != null && !VestPutOn)
         {
-            color = Color.blue;
+            ChangeVestColor(Team.TeamColor);
+            VestPutOn = true;
         }
-        else
-        {
-            color = Color.red;
-        }
-        VestLightBack.color = color;
     }
 
 }
