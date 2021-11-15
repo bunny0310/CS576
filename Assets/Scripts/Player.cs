@@ -19,7 +19,7 @@ public abstract class Player : MonoBehaviour
     protected long Score { get; set; }
     public Team Team { get; set; }
     protected PLAYER_TYPE PlayerType { get; set; }
-    protected float Velocity { get; set; }
+    public float Velocity { get; set; }
     protected Color VestColor { get; set; }
     private bool VestPutOn { get; set; }
     public Light VestLightFront { get; set; }
