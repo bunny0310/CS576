@@ -3,73 +3,131 @@ using UnityEngine;
 
 public class Human : Player
 {
-    GameObject SpineTarget;
-    Vector3 SpineTargetOriginalPosition;
+    GameObject SpineBone;
+    Quaternion SpineBoneOriginalRotation;
+    int[] movements = { 0, 0 }; // left, right & up, down
+    GameObject SpineBoneControllerTarget;
     public new void Start()
     {
         base.Start();
         gameObject.name = Enum.GetName(typeof(PLAYER_TYPE), PLAYER_TYPE.HUMAN);
-        SpineTarget = GameObject.Find("HeadTarget");
-        SpineTargetOriginalPosition = SpineTarget.transform.position;
+        SpineBone = GameObject.Find($"/{gameObject.name}/rig_CharRoot/bip/bipPelvis/bipSpine/bipSpine1");
+        Debug.Log(SpineBone);
+        SpineBoneOriginalRotation = SpineBone.transform.rotation;
+        SpineBoneControllerTarget = GameObject.Find($"/{gameObject.name}/GunMovementRig/Target");
     }
 
     public new void Update()
     {
         base.Update();
         // IMPLEMENT ME - Ishaan & Dhruv
-        var walkForwardsIncrement = Mathf.Abs(Velocity) < 300 ? 30f : 0f;
-        var mousePosition = Input.mousePosition;
-        //mousePosition.z = 30;
-        //Vector3 worldPosition = Camera.ScreenToWorldPoint(mousePosition);
-        //worldPosition.z = 30;
-        //HeadTarget.transform.position = new Vector3(worldPosition.x, worldPosition.y, transform.position.z);
-        // GunPoint.transform.position = new Vector3(worldPosition.x, worldPosition.y, transform.position.z);
 
+        // MOVEMENT - ARROW KEYS
+        
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            Velocity += walkForwardsIncrement;
-            AnimationController.SetInteger("state", (int)ANIMATION.WalkForward);
-        } else
+            WalkForwards();
+        }
+
+        else if (Input.GetKey(KeyCode.DownArrow))
         {
             Velocity = 0;
-            AnimationController.SetInteger("state", (int)ANIMATION.Idle);
+            DuckDown();
+        }
+        else
+        {
+            SwitchToIdle();
+        }
+
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            transform.Rotate(0, 1, 0, Space.World);
+        }
+
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            transform.Rotate(0, -1, 0, Space.World);
         }
 
         // CONTROL GUN DIRECTION - ASWD
 
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetAxis("Mouse X") < 0)
         {
-            if (!(SpineTarget.transform.position.y < SpineTargetOriginalPosition.y - 300))
+            if (movements[0] > -10)
             {
-                SpineTarget.transform.position = new Vector3(SpineTarget.transform.position.x, SpineTarget.transform.position.y - 10, SpineTarget.transform.position.z);
+                SpineBoneControllerTarget.transform.position += Vector3.left * 2.5f;
+                movements[0]--;
             }
         }
 
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetAxis("Mouse X") > 0)
         {
-            if (!(SpineTarget.transform.position.y > SpineTargetOriginalPosition.y + 300))
+            if (movements[0] < 10)
             {
-                SpineTarget.transform.position = new Vector3(SpineTarget.transform.position.x, SpineTarget.transform.position.y + 10, SpineTarget.transform.position.z);
+                SpineBoneControllerTarget.transform.position += Vector3.right * 2.5f;
+                movements[0]++;
             }
         }
+
+        if (Input.GetAxis("Mouse Y") > 0)
+        {
+            if (movements[1] > -10)
+            {
+                SpineBoneControllerTarget.transform.position += Vector3.up * 2.5f;
+                movements[1]--;
+            }
+        }
+
+        if (Input.GetAxis("Mouse Y") < 0)
+        {
+            if (movements[1] < 10)
+            {
+                SpineBoneControllerTarget.transform.position += Vector3.down * 2.5f;
+                movements[1]++;
+            }
+        }
+        //if (Input.GetKey(KeyCode.S))
+        //{
+        //    if (SpineBone.transform.rotation.eulerAngles.z > SpineBoneOriginalRotation.eulerAngles.z - 30)
+        //    {
+        //        SpineBone.transform.Rotate(0, 0, -10f, Space.World);
+        //    }
+        //}
+
+        //if (Input.GetKey(KeyCode.W))
+        //{
+        //    if (SpineBone.transform.rotation.eulerAngles.z < SpineBoneOriginalRotation.eulerAngles.z + 30)
+        //    {
+        //        SpineBone.transform.Rotate(0, 0, 10f, Space.World);
+        //    }
+        //}
 
         if (Input.GetKey(KeyCode.A))
         {
-            if (!(SpineTarget.transform.position.x < SpineTargetOriginalPosition.x - 600))
+            if (SpineBone.transform.rotation.eulerAngles.y > SpineBoneOriginalRotation.eulerAngles.y - 30)
             {
-                SpineTarget.transform.position = new Vector3(SpineTarget.transform.position.x - 10, SpineTarget.transform.position.y, SpineTarget.transform.position.z);
+                SpineBone.transform.Rotate(0, -10f, 0, Space.World);
             }
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            if (!(SpineTarget.transform.position.x > SpineTargetOriginalPosition.x + 600))
+            if (SpineBone.transform.rotation.eulerAngles.y < SpineBoneOriginalRotation.eulerAngles.y + 30)
             {
-                SpineTarget.transform.position = new Vector3(SpineTarget.transform.position.x + 10, SpineTarget.transform.position.y, SpineTarget.transform.position.z);
+                SpineBone.transform.Rotate(0, 10f, 0, Space.World);
             }
         }
 
-        if (Input.GetMouseButtonDown(0))
+
+        //if (Input.GetKey(KeyCode.D))
+        //{
+        //    if (!(SpineTarget.transform.position.x > SpineTargetOriginalPosition.x + 600))
+        //    {
+        //        SpineTarget.transform.Translate(10 * Vector3.right);
+        //    }
+        //}
+
+        if (Input.GetMouseButton(0))
         {
             Shoot();
         }

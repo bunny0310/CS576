@@ -1,7 +1,8 @@
 public enum ANIMATION
 {
     Idle,
-    WalkForward
+    WalkForward,
+    DuckDown
 }
 
 public enum LIGHT_TYPE

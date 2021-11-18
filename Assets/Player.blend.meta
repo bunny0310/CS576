@@ -5,22 +5,10 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: -623603649343465320
-    second: Idle
-  - first:
-      74: -1158726129008117130
-    second: Idle
-  - first:
-      74: -4454139077703410880
-    second: Walking
-  - first:
-      74: 2751374340363381473
-    second: Animations
+    second: DuckDown
   - first:
       74: 2667949614841947897
     second: Walk
-  - first:
-      74: -623603649343465320
-    second: Idle
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -50,11 +38,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Walk
+      name: DuckDown
       takeName: Scene
       internalID: 0
-      firstFrame: 1
-      lastFrame: 30
+      firstFrame: 65
+      lastFrame: 95
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -79,11 +67,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Idle
+      name: Walk
       takeName: Scene
       internalID: 0
-      firstFrame: 34
-      lastFrame: 64
+      firstFrame: 1
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

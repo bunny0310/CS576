@@ -8,7 +8,7 @@ public abstract class Player : MonoBehaviour
     protected Camera Camera;
     protected CharacterController CharacterController;
     protected int Energy { get; set; }
-    protected GameObject GunPoint { get; set; }
+    // protected GameObject GunPoint { get; set; }
     protected int Id { get; set; }
     protected bool IsDeactivated { get; set; }
     protected LIGHT_TYPE LightType { get; set; }
@@ -28,6 +28,7 @@ public abstract class Player : MonoBehaviour
     public void ChangeVestColor(Color color)
     {
         VestColor = color;
+        Debug.Log(VestLightFront);
         VestLightBack.color = VestColor;
         VestLightFront.color = VestColor;
     }
@@ -40,6 +41,11 @@ public abstract class Player : MonoBehaviour
     public void DecreasePulses()
     {
         // IMPLEMENT ME
+    }
+
+    public void DuckDown()
+    {
+        AnimationController.SetInteger("state", (int)ANIMATION.DuckDown);
     }
 
     public void IncreaseScore(int score)
@@ -75,9 +81,9 @@ public abstract class Player : MonoBehaviour
             return;
         }
         RaycastHit hit;
-        Physics.Raycast(GunPoint.transform.position, GunPoint.transform.forward, out hit, Mathf.Infinity);
-        Debug.DrawRay(GunPoint.transform.position, (GunPoint.transform.forward) * 100, Color.green, 100, false);
-        Debug.Log(hit.collider.gameObject.name); ;
+        Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity);
+        //Debug.DrawRay(GunPoint.transform.position, (GunPoint.transform.forward) * 100, Color.green, 10, false);
+        Debug.Log(hit.collider.gameObject.name); 
         if (hit.collider != null && hit.collider.gameObject.name.Equals(Enum.GetName(typeof(PLAYER_TYPE), PLAYER_TYPE.AI))) {
             var AIObject = hit.collider.gameObject.GetComponent<AI>();
             Time.timeScale = 1.0f;
@@ -93,14 +99,20 @@ public abstract class Player : MonoBehaviour
         Camera = GetComponentInChildren<Camera>();
         CharacterController = GetComponent<CharacterController>();
         Energy = Constants.Energy;
-        GunPoint = GameObject.Find($"/{gameObject.name}/GunPoint");
-        Debug.Log(GunPoint.transform.position);
+        // GunPoint = GameObject.Find($"/{gameObject.name}/GunPoint");
+        // Debug.Log(GunPoint.transform.position);
         Pulses = Constants.Pulses;
         Score = 0;
         Velocity = 0.0f;
         VestLightFront = GameObject.Find($"/{gameObject.name}/VestLightFront").GetComponent<Light>();
         VestLightBack = GameObject.Find($"/{gameObject.name}/VestLightBack").GetComponent<Light>();
         VestPutOn = false;
+    }
+
+    public void SwitchToIdle()
+    {
+        Velocity = 0;
+        AnimationController.SetInteger("state", (int)ANIMATION.Idle);
     }
 
     public void Update()
@@ -110,6 +122,13 @@ public abstract class Player : MonoBehaviour
             ChangeVestColor(Team.TeamColor);
             VestPutOn = true;
         }
+    }
+
+    public void WalkForwards()
+    {
+        var walkForwardsIncrement = Mathf.Abs(Velocity) < 300 ? 30f : 0f;
+        Velocity += walkForwardsIncrement;
+        AnimationController.SetInteger("state", (int)ANIMATION.WalkForward);
     }
 
 }
