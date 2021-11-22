@@ -43,5 +43,31 @@ public class GameManager : MonoBehaviour
             DisplayTime(TimeRemainingValue);
         }
 
+        if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
+        {
+            DeactivateCursor();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ActivateCursor();
+        }
+
+    }
+
+    private void DeactivateCursor()
+    {
+        // Make cursor invisible
+        Cursor.visible = false;
+        // Lock cursor
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private void ActivateCursor()
+    {
+        // Make cursor invisible
+        Cursor.visible = true;
+        // Lock cursor
+        Cursor.lockState = CursorLockMode.None;
     }
 }

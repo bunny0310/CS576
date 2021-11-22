@@ -1,12 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Human.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Player.cs">
     <Files>
-      <File FileName="Assets/Scripts/GameManager.cs" Line="17" Column="31" />
-      <File FileName="Assets/Scripts/Player.cs" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="42" Column="43" />
+      <File FileName="Assets/Scripts/Player.cs" Line="111" Column="1" />
       <File FileName="Assets/Scripts/AI.cs" />
       <File FileName="Assets/Scripts/Enumerations.cs" />
       <File FileName="Assets/Scripts/Constants.cs" />
-      <File FileName="Assets/Scripts/Human.cs" Line="63" Column="67" />
+      <File FileName="Assets/Scripts/Human.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,7 +15,7 @@
             <Node name="Assembly-CSharp" expanded="True">
               <Node name="Assets" expanded="True">
                 <Node name="Scripts" expanded="True">
-                  <Node name="Human.cs" selected="True" />
+                  <Node name="Player.cs" selected="True" />
                 </Node>
               </Node>
             </Node>
