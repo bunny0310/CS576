@@ -11,10 +11,6 @@ public class Human : Player
     {
         base.Start();
         gameObject.name = Enum.GetName(typeof(PLAYER_TYPE), PLAYER_TYPE.HUMAN);
-        SpineBone = GameObject.Find($"/{gameObject.name}/rig_CharRoot/bip/bipPelvis/bipSpine/bipSpine1");
-        Debug.Log(SpineBone);
-        SpineBoneOriginalRotation = SpineBone.transform.rotation;
-        SpineBoneControllerTarget = GameObject.Find($"/{gameObject.name}/GunMovementRig/Target");
     }
 
     public new void Update()
@@ -48,84 +44,6 @@ public class Human : Player
         {
             transform.Rotate(0, -1, 0, Space.World);
         }
-
-        // CONTROL GUN DIRECTION - ASWD
-
-        if (Input.GetAxis("Mouse X") < 0)
-        {
-            if (movements[0] > -10)
-            {
-                SpineBoneControllerTarget.transform.position += Vector3.left * 2.5f;
-                movements[0]--;
-            }
-        }
-
-        if (Input.GetAxis("Mouse X") > 0)
-        {
-            if (movements[0] < 10)
-            {
-                SpineBoneControllerTarget.transform.position += Vector3.right * 2.5f;
-                movements[0]++;
-            }
-        }
-
-        if (Input.GetAxis("Mouse Y") > 0)
-        {
-            if (movements[1] > -10)
-            {
-                SpineBoneControllerTarget.transform.position += Vector3.up * 2.5f;
-                movements[1]--;
-            }
-        }
-
-        if (Input.GetAxis("Mouse Y") < 0)
-        {
-            if (movements[1] < 10)
-            {
-                SpineBoneControllerTarget.transform.position += Vector3.down * 2.5f;
-                movements[1]++;
-            }
-        }
-        //if (Input.GetKey(KeyCode.S))
-        //{
-        //    if (SpineBone.transform.rotation.eulerAngles.z > SpineBoneOriginalRotation.eulerAngles.z - 30)
-        //    {
-        //        SpineBone.transform.Rotate(0, 0, -10f, Space.World);
-        //    }
-        //}
-
-        //if (Input.GetKey(KeyCode.W))
-        //{
-        //    if (SpineBone.transform.rotation.eulerAngles.z < SpineBoneOriginalRotation.eulerAngles.z + 30)
-        //    {
-        //        SpineBone.transform.Rotate(0, 0, 10f, Space.World);
-        //    }
-        //}
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            if (SpineBone.transform.rotation.eulerAngles.y > SpineBoneOriginalRotation.eulerAngles.y - 30)
-            {
-                SpineBone.transform.Rotate(0, -10f, 0, Space.World);
-            }
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            if (SpineBone.transform.rotation.eulerAngles.y < SpineBoneOriginalRotation.eulerAngles.y + 30)
-            {
-                SpineBone.transform.Rotate(0, 10f, 0, Space.World);
-            }
-        }
-
-
-        //if (Input.GetKey(KeyCode.D))
-        //{
-        //    if (!(SpineTarget.transform.position.x > SpineTargetOriginalPosition.x + 600))
-        //    {
-        //        SpineTarget.transform.Translate(10 * Vector3.right);
-        //    }
-        //}
 
         if (Input.GetMouseButton(0))
         {

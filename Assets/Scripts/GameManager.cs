@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     Team RedTeam;
     public Text TimeRemaining;
     public float TimeRemainingValue = 300.0f;
+    public Cinemachine.CinemachineFreeLook freeLookCamera;
 
     private void DisplayTime(float timeToDisplay)
     {
@@ -34,6 +35,8 @@ public class GameManager : MonoBehaviour
         GameObject AIObject = Instantiate(Player, RedPlayerStartPosition, Quaternion.identity);
         AIObject.AddComponent<AI>();
         AIObject.GetComponent<AI>().Team = RedTeam;
+        freeLookCamera.LookAt = GameObject.Find($"{HumanObject.name}/rig_CharRoot").transform;
+        freeLookCamera.Follow = GameObject.Find($"{HumanObject.name}/rig_CharRoot/bip/bipPelvis/bipSpine/bipSpine1/bipNeck/bipHead").transform;
     }
     public void Update()
     {

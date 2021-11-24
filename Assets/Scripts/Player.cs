@@ -81,16 +81,16 @@ public abstract class Player : MonoBehaviour
             return;
         }
         RaycastHit hit;
-        Physics.Raycast(GunPoint.transform.position, GunPoint.transform.forward, out hit, Mathf.Infinity);
-        Debug.DrawRay(GunPoint.transform.position, (GunPoint.transform.forward) * 100, Color.green, 10, false);
-        Debug.Log(hit.collider.gameObject.name); 
-        if (hit.collider != null && hit.collider.gameObject.name.Equals(Enum.GetName(typeof(PLAYER_TYPE), PLAYER_TYPE.AI))) {
-            var AIObject = hit.collider.gameObject.GetComponent<AI>();
-            Time.timeScale = 1.0f;
-            StartCoroutine(AIObject.OmitLight());
-            AIObject.DecreasePulses();
+        //Physics.Raycast(GunPoint.transform.position, GunPoint.transform.forward, out hit, Mathf.Infinity);
+       
+        //Debug.Log(hit.collider.gameObject.name); 
+        //if (hit.collider != null && hit.collider.gameObject.name.Equals(Enum.GetName(typeof(PLAYER_TYPE), PLAYER_TYPE.AI))) {
+        //    var AIObject = hit.collider.gameObject.GetComponent<AI>();
+        //    Time.timeScale = 1.0f;
+        //    StartCoroutine(AIObject.OmitLight());
+        //    AIObject.DecreasePulses();
 
-        }
+        //}
     }
 
     public void Start()
@@ -127,7 +127,7 @@ public abstract class Player : MonoBehaviour
 
     public void WalkForwards()
     {
-        var walkForwardsIncrement = Mathf.Abs(Velocity) < 300 ? 30f : 0f;
+        var walkForwardsIncrement = Mathf.Abs(Velocity) < 3f ? 1f : 0f;
         Velocity += walkForwardsIncrement;
         AnimationController.SetInteger("state", (int)ANIMATION.WalkForward);
     }
