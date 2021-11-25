@@ -45,7 +45,7 @@ public class Human : Player
             transform.Rotate(0, -1, 0, Space.World);
         }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Shoot();
         }

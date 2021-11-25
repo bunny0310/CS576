@@ -54,12 +54,20 @@ public abstract class Player : MonoBehaviour
         Team.UpdateTeamScore(score);
     }
 
-    public IEnumerator OmitLight()
+    public IEnumerator OmitLight(Vector3 location)
     {
         // IMPLEMENT ME
-        ChangeVestColor(Constants.ShotColor);
+        var pointLightObject = new GameObject("ShotLight");
+        var pointLight = pointLightObject.AddComponent<Light>();
+        pointLight.type = UnityEngine.LightType.Point;
+        pointLight.color = Color.white;
+        pointLight.intensity = 20;
+        pointLight.range = 10;
+        pointLightObject.transform.position = location;
+        Quaternion rotation = Quaternion.LookRotation(GunPoint.transform.forward, Vector3.up);
+        pointLightObject.transform.rotation = rotation;
         yield return new WaitForSeconds(0.5f);
-        ChangeVestColor(Team.TeamColor);
+        Destroy(pointLightObject);
     }
 
     protected bool OnChargeStation()
@@ -81,16 +89,25 @@ public abstract class Player : MonoBehaviour
             return;
         }
         RaycastHit hit;
-        //Physics.Raycast(GunPoint.transform.position, GunPoint.transform.forward, out hit, Mathf.Infinity);
-       
-        //Debug.Log(hit.collider.gameObject.name); 
-        //if (hit.collider != null && hit.collider.gameObject.name.Equals(Enum.GetName(typeof(PLAYER_TYPE), PLAYER_TYPE.AI))) {
-        //    var AIObject = hit.collider.gameObject.GetComponent<AI>();
-        //    Time.timeScale = 1.0f;
-        //    StartCoroutine(AIObject.OmitLight());
-        //    AIObject.DecreasePulses();
+        Physics.Raycast(GunPoint.transform.position, GunPoint.transform.forward, out hit, Mathf.Infinity);
+        Time.timeScale = 1.0f;
+        try
+        {
+            Debug.Log(hit.point);
+            StartCoroutine(this.OmitLight(hit.point));
+            Debug.DrawRay(GunPoint.transform.position, GunPoint.transform.forward, Color.blue, 20);
+        } catch (Exception e)
+        {
+            Debug.Log(e);
+        }
+            //if (hit.collider.gameObject.name.Equals(Enum.GetName(typeof(PLAYER_TYPE), PLAYER_TYPE.AI)))
+            //{
+            //    var AIObject = hit.collider.gameObject.GetComponent<AI>();
+            //    Time.timeScale = 1.0f;
+            //    StartCoroutine(AIObject.OmitLight());
+            //    AIObject.DecreasePulses();
 
-        //}
+            //}
     }
 
     public void Start()
@@ -99,7 +116,7 @@ public abstract class Player : MonoBehaviour
         Camera = GetComponentInChildren<Camera>();
         CharacterController = GetComponent<CharacterController>();
         Energy = Constants.Energy;
-        GunPoint = GameObject.Find($"/{gameObject.name}/rig_CharRoot/bip/bipPelvis/bipSpine/bipSpine1/GunBone/Bone.001");
+        GunPoint = GameObject.Find($"/{gameObject.name}/GunPivot/ShootPoint");
         // Debug.Log(GunPoint.transform.position);
         Pulses = Constants.Pulses;
         Score = 0;

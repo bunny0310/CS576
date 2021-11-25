@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -37,7 +38,7 @@ public class GameManager : MonoBehaviour
         AIObject.GetComponent<AI>().Team = RedTeam;
         freeLookCamera.LookAt = GameObject.Find($"{HumanObject.name}/rig_CharRoot").transform;
         freeLookCamera.Follow = GameObject.Find($"{HumanObject.name}/rig_CharRoot/bip/bipPelvis/bipSpine/bipSpine1/bipNeck/bipHead").transform;
-    }
+    }  
     public void Update()
     {
         if (TimeRemainingValue > 0)
