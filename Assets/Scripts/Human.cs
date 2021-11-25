@@ -24,10 +24,8 @@ public class Human : Player
         {
             WalkForwards();
         }
-
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            Velocity = 0;
             DuckDown();
         }
         else
