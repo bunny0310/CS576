@@ -62,7 +62,7 @@ public abstract class Player : MonoBehaviour
         pointLight.type = UnityEngine.LightType.Point;
         pointLight.color = Color.white;
         pointLight.intensity = 20;
-        pointLight.range = 10;
+        pointLight.range = 1f;
         pointLightObject.transform.position = location;
         Quaternion rotation = Quaternion.LookRotation(GunPoint.transform.forward, Vector3.up);
         pointLightObject.transform.rotation = rotation;
