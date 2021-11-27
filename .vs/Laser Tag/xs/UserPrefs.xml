@@ -1,13 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.ItemProperties.Unity.Postprocessing.Editor PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Player.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/GameManager.cs" Line="30" Column="1" />
-      <File FileName="Assets/Scripts/Player.cs" Line="88" Column="23" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="84" Column="41" />
+      <File FileName="Assets/Scripts/Player.cs" Line="58" Column="6" />
       <File FileName="Assets/Scripts/AI.cs" />
       <File FileName="Assets/Scripts/Enumerations.cs" />
       <File FileName="Assets/Scripts/Constants.cs" />
-      <File FileName="Assets/Scripts/Human.cs" />
+      <File FileName="Assets/Scripts/Human.cs" Line="17" Column="6" />
       <File FileName="Assets/Scripts/EntryPoint.cs" />
     </Files>
     <Pads>
@@ -17,7 +17,7 @@
             <Node name="Assembly-CSharp" expanded="True">
               <Node name="Assets" expanded="True">
                 <Node name="Scripts" expanded="True">
-                  <Node name="Player.cs" selected="True" />
+                  <Node name="GameManager.cs" selected="True" />
                 </Node>
               </Node>
             </Node>
