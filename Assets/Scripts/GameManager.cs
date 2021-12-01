@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    GameObject Player;
+    GameObject Human;
+    GameObject AI;
     Team BlueTeam;
     Team RedTeam;
     public Text TimeRemaining;
@@ -25,26 +26,37 @@ public class GameManager : MonoBehaviour
     public void Start()
     {
         cameras = new List<Camera>();
-        Player = (GameObject)Resources.Load("Prefabs/Player", typeof(GameObject));  // player prefab
-        Debug.Log(Player);
-        if (Player == null)
-            Debug.LogError("Error: could not find the apple prefab in the project! Did you delete/move the prefab from your project?");
+        Human = (GameObject)Resources.Load("Prefabs/HUMAN", typeof(GameObject));  // human prefab
+        if (Human == null)
+            Debug.LogError("Error: could not find the human prefab in the project! Did you delete/move the prefab from your project?");
+        AI = (GameObject)Resources.Load("Prefabs/AI", typeof(GameObject));  // human prefab
+        if (AI == null)
+            Debug.LogError("Error: could not find the AI prefab in the project! Did you delete/move the prefab from your project?");
 
         BlueTeam = new Team(1, Color.blue);
         RedTeam = new Team(1, Color.red);
 
-        var BluePlayerStartPosition = GameObject.Find("BluePlayerPosition").transform.position;
-        var RedPlayerStartPosition = GameObject.Find("RedPlayerPosition").transform.position;
-        GameObject HumanObject = Instantiate(Player, BluePlayerStartPosition, Quaternion.identity);
-        cameras.Add(HumanObject.GetComponentInChildren<Camera>());
-        cameras.Add(TimeRemainingCamera);
-        HumanObject.AddComponent<Human>();
-        HumanObject.GetComponent<Human>().Team = BlueTeam;
-        GameObject AIObject = Instantiate(Player, RedPlayerStartPosition, Quaternion.identity);
-        AIObject.AddComponent<AI>();
-        AIObject.GetComponent<AI>().Team = RedTeam;
-        freeLookCamera.LookAt = GameObject.Find($"{HumanObject.name}/bip").transform;
-        freeLookCamera.Follow = GameObject.Find($"{HumanObject.name}/bip/bip Pelvis/bip Spine/bip Spine1/bip Neck/bip Head").transform;
+        try
+        {
+            var BluePlayerStartPosition = GameObject.Find("BluePlayerPosition").transform.position;
+            var RedPlayerStartPosition = GameObject.Find("RedPlayerPosition").transform.position;
+            GameObject HumanObject = Instantiate(Human, BluePlayerStartPosition, Quaternion.identity);
+            cameras.Add(HumanObject.GetComponentInChildren<Camera>());
+            cameras.Add(TimeRemainingCamera);
+            HumanObject.AddComponent<Human>();
+            var HumanComponent = HumanObject.GetComponent<Human>();
+            HumanComponent.Team = BlueTeam;
+            freeLookCamera.LookAt = GameObject.Find($"{HumanComponent.gameObject.name}/bip").transform;
+            freeLookCamera.Follow = GameObject.Find($"{HumanComponent.gameObject.name}/bip/bip Pelvis/bip Spine/bip Spine1/bip Neck/bip Head").transform;
+
+            GameObject AIObject = Instantiate(AI, RedPlayerStartPosition, Quaternion.identity);
+            var AIComponent = AIObject.GetComponent<AI>();
+            AIComponent.Team = RedTeam;
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
     }
     private void SwitchCamera()
     {

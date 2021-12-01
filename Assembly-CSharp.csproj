@@ -36,6 +36,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\EntryPoint.cs" />
      <Compile Include="Assets\Nokobot\Modern Guns - Handgun\_Demo Assets\SimpleShoot.cs" />
      <Compile Include="Assets\Scripts\AI.cs" />
      <Compile Include="Assets\Scripts\Enumerations.cs" />
@@ -44,7 +45,9 @@
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Human.cs" />
      <Compile Include="Assets\Scripts\Constants.cs" />
-     <Compile Include="Assets\Scripts\EntryPoint.cs" />
+     <Compile Include="Assets\Scripts\DebugDrawLine.cs" />
+     <Compile Include="Assets\Scripts\DebugDrawSphere.cs" />
+     <Compile Include="Assets\Scripts\WeaponIK.cs" />
      <None Include="Assets\SDF_BasicTrainingStage\PostProcessing\Shaders\StdLib.hlsl" />
      <None Include="Assets\SDF_BasicTrainingStage\PostProcessing\Shaders\Debug\Waveform.shader" />
      <None Include="Assets\SDF_BasicTrainingStage\PostProcessing\Shaders\Builtins\MultiScaleVOUpsample.compute" />

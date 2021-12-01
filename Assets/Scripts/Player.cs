@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 
 public abstract class Player : MonoBehaviour
@@ -24,6 +25,7 @@ public abstract class Player : MonoBehaviour
     private bool VestPutOn { get; set; }
     public Light VestLightFront { get; set; }
     public Light VestLightBack { get; set; }
+    private bool justShot = false;
 
     public void ChangeVestColor(Color color)
     {
@@ -40,7 +42,14 @@ public abstract class Player : MonoBehaviour
 
     public void DecreasePulses()
     {
-        // IMPLEMENT ME
+        if (Pulses > 0)
+            Pulses--;
+        else
+        {
+            Pulses = 0;
+            Energy = 0;
+            IsDeactivated = true;
+        }
     }
 
     public void DuckDown()
@@ -54,10 +63,10 @@ public abstract class Player : MonoBehaviour
         Team.UpdateTeamScore(score);
     }
 
-    public IEnumerator OmitLight(Vector3 location)
+    public IEnumerator OmitLight(GameObject shootObject, Vector3 location)
     {
-        // IMPLEMENT ME
         var pointLightObject = new GameObject("ShotLight");
+        pointLightObject.transform.parent = shootObject.transform;
         var pointLight = pointLightObject.AddComponent<Light>();
         pointLight.type = UnityEngine.LightType.Point;
         pointLight.color = Color.white;
@@ -68,6 +77,7 @@ public abstract class Player : MonoBehaviour
         pointLightObject.transform.rotation = rotation;
         yield return new WaitForSeconds(0.5f);
         Destroy(pointLightObject);
+        justShot = false;
     }
 
     protected bool OnChargeStation()
@@ -81,33 +91,25 @@ public abstract class Player : MonoBehaviour
         // IMPLEMENT ME
     }
 
-    public void Shoot()
+    public void Shoot(GameObject shootObject)
     {
-        // TO DO: Fix raycast, always pointing upwards
+        if (justShot)
+        {
+            return;
+        }
         if (IsDeactivated)
         {
             return;
         }
-        RaycastHit hit;
-        Physics.Raycast(GunPoint.transform.position, GunPoint.transform.forward, out hit, Mathf.Infinity);
-        Time.timeScale = 1.0f;
         try
         {
-            Debug.Log(hit.point);
-            StartCoroutine(this.OmitLight(hit.point));
-            Debug.DrawRay(GunPoint.transform.position, GunPoint.transform.forward, Color.blue, 20);
+            justShot = true;
+            DecreasePulses();
+            StartCoroutine(this.OmitLight(shootObject, shootObject.transform.position));
         } catch (Exception e)
         {
             Debug.Log(e);
         }
-            //if (hit.collider.gameObject.name.Equals(Enum.GetName(typeof(PLAYER_TYPE), PLAYER_TYPE.AI)))
-            //{
-            //    var AIObject = hit.collider.gameObject.GetComponent<AI>();
-            //    Time.timeScale = 1.0f;
-            //    StartCoroutine(AIObject.OmitLight());
-            //    AIObject.DecreasePulses();
-
-            //}
     }
 
     public void Start()
@@ -116,7 +118,7 @@ public abstract class Player : MonoBehaviour
         Camera = GetComponentInChildren<Camera>();
         CharacterController = GetComponent<CharacterController>();
         Energy = Constants.Energy;
-        GunPoint = GameObject.Find($"/{gameObject.name}/GunPivot/ShootPoint");
+        GunPoint = GameObject.Find($"/{gameObject.name}/bip/bip Pelvis/bip Spine/bip Spine1/bip R Clavicle/GunPivot/ShootPoint");
         // Debug.Log(GunPoint.transform.position);
         Pulses = Constants.Pulses;
         Score = 0;
@@ -140,6 +142,16 @@ public abstract class Player : MonoBehaviour
             VestPutOn = true;
         }
         Cursor.lockState = CursorLockMode.Locked;
+        if (transform.position.y > 0.51f)
+        {
+            transform.position = new Vector3(transform.position.x, 0.51f, transform.position.z);
+        }
+
+        GetComponent<CapsuleCollider>().center = new Vector3(GetComponent<CapsuleCollider>().center.x, 0.9f, GetComponent<CapsuleCollider>().center.z);
+        float xdirection = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.y);
+        float zdirection = Mathf.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.y);
+        MoveDirection = new Vector3(xdirection, 0.0f, zdirection);
+        CharacterController.Move(MoveDirection * Velocity * Time.deltaTime);
     }
 
     public void WalkForwards()

@@ -11,6 +11,7 @@ public class Human : Player
     {
         base.Start();
         gameObject.name = Enum.GetName(typeof(PLAYER_TYPE), PLAYER_TYPE.HUMAN);
+        transform.Find("CenterTag").gameObject.layer = 3;
     }
 
     public new void Update()
@@ -45,14 +46,14 @@ public class Human : Player
 
         if (Input.GetMouseButtonDown(0))
         {
-            Shoot();
+            RaycastHit hit;
+            var origin = GameObject.Find($"{gameObject.name}/bip/bip Pelvis/bip Spine/bip Spine1/bip R Clavicle/GunPivot/ShootPoint/WeaponRaycast");
+            var shootOut = Physics.Raycast(origin.transform.position, origin.transform.forward, out hit, 100);
+            if (hit.collider != null)
+            {
+                Shoot(hit.collider.gameObject);
+            }
         }
-
-        GetComponent<CapsuleCollider>().center = new Vector3(GetComponent<CapsuleCollider>().center.x, 0.9f, GetComponent<CapsuleCollider>().center.z);
-        float xdirection = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.y);
-        float zdirection = Mathf.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.y);
-        MoveDirection = new Vector3(xdirection, 0.0f, zdirection);
-        CharacterController.Move(MoveDirection * Velocity * Time.deltaTime);
 
     }
 
