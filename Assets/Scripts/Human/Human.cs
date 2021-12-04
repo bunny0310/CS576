@@ -10,7 +10,7 @@ public class Human : Player
     public new void Start()
     {
         base.Start();
-        gameObject.name = Enum.GetName(typeof(PLAYER_TYPE), PLAYER_TYPE.HUMAN);
+        gameObject.name = $"Agent{Configuration.GenerateId()}";
         transform.Find("CenterTag").gameObject.layer = 3;
     }
 

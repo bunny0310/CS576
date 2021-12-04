@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     GameObject Human;
-    GameObject AI;
+    GameObject HumanAgent;
+    GameObject AIAgent;
     Team BlueTeam;
     Team RedTeam;
     public Text TimeRemaining;
@@ -26,32 +27,51 @@ public class GameManager : MonoBehaviour
     public void Start()
     {
         cameras = new List<Camera>();
-        Human = (GameObject)Resources.Load("Prefabs/HUMAN", typeof(GameObject));  // human prefab
-        if (Human == null)
-            Debug.LogError("Error: could not find the human prefab in the project! Did you delete/move the prefab from your project?");
-        AI = (GameObject)Resources.Load("Prefabs/AI", typeof(GameObject));  // human prefab
-        if (AI == null)
-            Debug.LogError("Error: could not find the AI prefab in the project! Did you delete/move the prefab from your project?");
 
-        BlueTeam = new Team(1, Color.blue);
-        RedTeam = new Team(1, Color.red);
+        Human = (GameObject)Resources.Load("Prefabs/Human", typeof(GameObject));  // human prefab
+        AIAgent = (GameObject)Resources.Load("Prefabs/AIAgent", typeof(GameObject));  // AI Agent prefab
+        if (Human == null)
+        {
+            Debug.LogError("Error: could not find the human prefab in the project! Did you delete/move the prefab from your project?");
+        }
+        if (AIAgent == null)
+        {
+            Debug.LogError("Error: could not find the AIAgent prefab in the project! Did you delete/move the prefab from your project?");
+        }
+            
+
+        BlueTeam = new Team(5, Color.blue);
+        RedTeam = new Team(5, Color.red);
 
         try
         {
-            var BluePlayerStartPosition = GameObject.Find("BluePlayerPosition").transform.position;
-            var RedPlayerStartPosition = GameObject.Find("RedPlayerPosition").transform.position;
-            GameObject HumanObject = Instantiate(Human, BluePlayerStartPosition, Quaternion.identity);
+            // spawn blue team players
+            var BlueTeamtartingPoint = GameObject.Find("BlueTeamPosition").transform.position;
+            GameObject HumanObject = Instantiate(Human, BlueTeamtartingPoint, Quaternion.identity);
+            BlueTeamtartingPoint = new Vector3(BlueTeamtartingPoint.x + 5, BlueTeamtartingPoint.y, BlueTeamtartingPoint.z);
             cameras.Add(HumanObject.GetComponentInChildren<Camera>());
-            cameras.Add(TimeRemainingCamera);
-            HumanObject.AddComponent<Human>();
             var HumanComponent = HumanObject.GetComponent<Human>();
             HumanComponent.Team = BlueTeam;
             freeLookCamera.LookAt = GameObject.Find($"{HumanComponent.gameObject.name}/bip").transform;
             freeLookCamera.Follow = GameObject.Find($"{HumanComponent.gameObject.name}/bip/bip Pelvis/bip Spine/bip Spine1/bip Neck/bip Head").transform;
 
-            GameObject AIObject = Instantiate(AI, RedPlayerStartPosition, Quaternion.identity);
-            var AIComponent = AIObject.GetComponent<AI>();
-            AIComponent.Team = RedTeam;
+            for (int i=1; i<5; ++i)
+            {
+                var humanAgent = Instantiate(AIAgent, BlueTeamtartingPoint, Quaternion.identity);
+                humanAgent.GetComponent<AIAgent>().Team = BlueTeam;
+                BlueTeam.AddPlayer(humanAgent.GetComponent<AIAgent>());
+                BlueTeamtartingPoint = new Vector3(BlueTeamtartingPoint.x + 5, BlueTeamtartingPoint.y, BlueTeamtartingPoint.z);
+            }
+
+            // spawn red team players
+            var RedTeamtartingPoint = GameObject.Find("RedTeamPosition").transform.position;
+            for (int i = 0; i < 5; ++i)
+            {
+                var aiAgent = Instantiate(AIAgent, RedTeamtartingPoint, Quaternion.Euler(0,180,0));
+                aiAgent.GetComponent<AIAgent>().Team = RedTeam;
+                RedTeam.AddPlayer(aiAgent.GetComponent<AIAgent>());
+                RedTeamtartingPoint = new Vector3(RedTeamtartingPoint.x + 5, RedTeamtartingPoint.y, RedTeamtartingPoint.z);
+            }
         }
         catch (Exception e)
         {

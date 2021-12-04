@@ -1,13 +1,15 @@
-﻿<Properties>
+﻿<Properties StartupConfiguration="{DDD53186-92AD-D074-C920-1A665687A592}|Unit Tests">
   <MonoDevelop.Ide.ItemProperties.Unity.Postprocessing.Editor PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/AI.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WeaponIK.cs">
     <Files>
-      <File FileName="Assets/Scripts/GameManager.cs" Line="53" Column="47" />
-      <File FileName="Assets/Scripts/Player.cs" />
-      <File FileName="Assets/Scripts/Enumerations.cs" />
-      <File FileName="Assets/Scripts/Constants.cs" />
-      <File FileName="Assets/Scripts/AI.cs" />
-      <File FileName="Assets/Scripts/WeaponIK.cs" />
+      <File FileName="Assets/Scripts/AI.cs" Line="108" Column="35" />
+      <File FileName="Assets/Scripts/AIAgent.cs" Line="12" Column="23" />
+      <File FileName="Assets/Scripts/AIState.cs" Line="12" Column="16" />
+      <File FileName="Assets/Scripts/AIStateMachine.cs" Line="28" Column="47" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="65" Column="1" />
+      <File FileName="Assets/Scripts/Human.cs" Line="13" Column="61" />
+      <File FileName="Assets/Scripts/Team.cs" Line="27" Column="6" />
+      <File FileName="Assets/Scripts/WeaponIK.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -16,7 +18,8 @@
             <Node name="Assembly-CSharp" expanded="True">
               <Node name="Assets" expanded="True">
                 <Node name="Scripts" expanded="True">
-                  <Node name="AI.cs" selected="True" />
+                  <Node name="AI" expanded="True" />
+                  <Node name="DebugScripts" expanded="True" />
                 </Node>
               </Node>
             </Node>

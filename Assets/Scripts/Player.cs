@@ -30,7 +30,6 @@ public abstract class Player : MonoBehaviour
     public void ChangeVestColor(Color color)
     {
         VestColor = color;
-        Debug.Log(VestLightFront);
         VestLightBack.color = VestColor;
         VestLightFront.color = VestColor;
     }
@@ -123,8 +122,8 @@ public abstract class Player : MonoBehaviour
         Pulses = Constants.Pulses;
         Score = 0;
         Velocity = 0.0f;
-        VestLightFront = GameObject.Find($"/{gameObject.name}/VestLightFront").GetComponent<Light>();
-        VestLightBack = GameObject.Find($"/{gameObject.name}/VestLightBack").GetComponent<Light>();
+        VestLightFront = GameObject.Find($"{gameObject.name}/VestLightFront").GetComponent<Light>();
+        VestLightBack = GameObject.Find($"{gameObject.name}/VestLightBack").GetComponent<Light>();
         VestPutOn = false;
     }
 

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Postprocessing.Runtim
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Postprocessing.Editor", "Unity.Postprocessing.Editor.csproj", "{ddd53186-92ad-d074-c920-1a665687a592}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{bbfb00fa-5dd1-e047-1b13-aae3d0ea9655}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,6 +20,8 @@ Global
 		{09d7b632-e99f-8071-c4d1-b7e1c20530fa}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ddd53186-92ad-d074-c920-1a665687a592}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ddd53186-92ad-d074-c920-1a665687a592}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{bbfb00fa-5dd1-e047-1b13-aae3d0ea9655}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{bbfb00fa-5dd1-e047-1b13-aae3d0ea9655}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Linq;
 
-public class AI : Player
+public abstract class AI : Player
 {
 
     // scan properties
@@ -14,8 +14,8 @@ public class AI : Player
     public float height = 3.2f;
     public Color meshColor = Color.red;
     public int scanFrequency = 30;
-    public LayerMask layers = ~8;
-    public LayerMask occlusionLayers = ~0;
+    public LayerMask layers;
+    public LayerMask occlusionLayers;
     UnityEngine.AI.NavMeshAgent agent;
 
     public List<GameObject> objs
@@ -42,16 +42,14 @@ public class AI : Player
     public new void Start()
     {
         base.Start();
-        gameObject.name = Enum.GetName(typeof(PLAYER_TYPE), PLAYER_TYPE.AI);
         scanInterval = 1.0f / scanFrequency;
-        transform.LookAt(GameObject.Find("ArenaObjects/BaseBlue-L").transform);
-        WalkForwards();
+        //transform.LookAt(GameObject.Find("ArenaObjects/BaseBlue-L").transform);
+        //WalkForwards();
     }
 
     public new void Update()
     {
         base.Update();
-        // IMPLEMENT ME - MAK
         scanTimer -= Time.deltaTime;
         if (scanTimer < 0)
         {
@@ -59,9 +57,21 @@ public class AI : Player
             var scannedObjects = Scan();
             if (scannedObjects.Count != 0)
             {
-                GetComponent<WeaponIK>().targetTransform = scannedObjects[0].transform;
-                SwitchToIdle();
-                SetAimAndShoot(scannedObjects[0]);
+                var baseObj = ScannedBase(objs);
+                var opponent = ScannedOpponent(objs);
+                if (opponent)
+                {
+                    Debug.Log(opponent.name);
+                    GetComponent<WeaponIK>().targetTransform = opponent.transform.Find("CenterTag");
+                    SwitchToIdle();
+                    SetAimAndShoot(opponent.transform.Find("CenterTag").gameObject);
+                }
+                else if (baseObj)
+                {
+                    GetComponent<WeaponIK>().targetTransform = baseObj.transform.Find("Light");
+                    SwitchToIdle();
+                    SetAimAndShoot(baseObj.transform.Find("Light").gameObject);
+                }
 
             } else
             {
@@ -69,6 +79,25 @@ public class AI : Player
                 GetComponent<WeaponIK>().targetTransform = null;
             }
         }
+    }
+
+    private GameObject ScannedOpponent(List<GameObject> objs)
+    {
+        var opponent = objs.Find(obj => obj.name.Contains("Agent"));
+        if (opponent == null)
+        {
+            return null;
+        }
+        if (opponent.GetComponent<Human>() && !(opponent.GetComponent<Human>().Team.TeamColor.Equals(GetComponent<AIAgent>().Team.TeamColor)))
+            return opponent;
+        if (!(opponent.GetComponent<AIAgent>().Team.TeamColor.Equals(GetComponent<AIAgent>().Team.TeamColor)))
+            return opponent;
+        return null;
+    }
+
+    private GameObject ScannedBase(List<GameObject> objs)
+    {
+        return objs.Find(obj => obj.name.Contains("Base"));
     }
 
     private List<GameObject> Scan()
