@@ -3,8 +3,10 @@
 public enum AIStateId
 {
     ChasePlayer,
+    ChaseBase,
     Deactivated,
-    Idle
+    Idle,
+    Shoot
 }
 
 public interface AIState

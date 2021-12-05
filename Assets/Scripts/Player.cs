@@ -35,8 +35,14 @@ public class Player : MonoBehaviour
     }
     public void DecreaseEnergy()
     {
-
-        // IMPLEMENT ME
+        if (Energy > 0)
+            Energy--;
+        else
+        {
+            Pulses = 0;
+            Energy = 0;
+            IsDeactivated = true;
+        }
     }
 
     public void DecreasePulses()
@@ -85,12 +91,17 @@ public class Player : MonoBehaviour
         return true;
     }
 
+    public bool DeactivatedStatus()
+    {
+        return IsDeactivated;
+    }
+
     public void Recharge()
     {
         // IMPLEMENT ME
     }
 
-    public void Shoot(GameObject shootObject)
+    public void Shoot(GameObject shootObject, Player player = null)
     {
         if (justShot)
         {
@@ -103,6 +114,10 @@ public class Player : MonoBehaviour
         try
         {
             justShot = true;
+            if (player != null)
+            {
+                player.DecreaseEnergy();
+            }
             DecreasePulses();
             StartCoroutine(this.OmitLight(shootObject, shootObject.transform.position));
         } catch (Exception e)
@@ -154,11 +169,21 @@ public class Player : MonoBehaviour
         CharacterController.Move(MoveDirection * Velocity * Time.deltaTime);
     }
 
-    public void WalkForwards()
+    protected void WalkForwards()
     {
-        var walkForwardsIncrement = Mathf.Abs(Velocity) < 3f ? 1f : 0f;
+        var walkForwardsIncrement = Mathf.Abs(Velocity) < 6f ? 1.5f : 0f;
         Velocity += walkForwardsIncrement;
         AnimationController.SetInteger("state", (int)ANIMATION.WalkForward);
+    }
+
+    public void WalkTowards(GameObject target)
+    {
+        if (target == null)
+        {
+            Debug.Log("Target cannot be null, exiting.");
+        }
+        transform.LookAt(target.transform);
+        WalkForwards();
     }
 
 }

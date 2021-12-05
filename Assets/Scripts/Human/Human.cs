@@ -9,9 +9,8 @@ public class Human : Player
     GameObject SpineBoneControllerTarget;
     public new void Start()
     {
+        gameObject.name = $"HumanAgent{Configuration.GenerateId()}";
         base.Start();
-        gameObject.name = $"Agent{Configuration.GenerateId()}";
-        transform.Find("CenterTag").gameObject.layer = 3;
     }
 
     public new void Update()
@@ -36,12 +35,12 @@ public class Human : Player
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            transform.Rotate(0, 1, 0, Space.World);
+            transform.Rotate(0, 3, 0, Space.World);
         }
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.Rotate(0, -1, 0, Space.World);
+            transform.Rotate(0, -3, 0, Space.World);
         }
 
         if (Input.GetMouseButtonDown(0))

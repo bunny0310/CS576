@@ -1,19 +1,21 @@
 ﻿<Properties StartupConfiguration="{DDD53186-92AD-D074-C920-1A665687A592}|Unit Tests">
   <MonoDevelop.Ide.ItemProperties.Unity.Postprocessing.Editor PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/AI/AISensor.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Human/Human.cs">
     <Files>
-      <File FileName="Assets/Scripts/AIState.cs" Line="14" Column="10" />
+      <File FileName="Assets/Scripts/AIState.cs" Line="9" Column="10" />
       <File FileName="Assets/Scripts/AIStateMachine.cs" Line="8" Column="12" />
-      <File FileName="Assets/Scripts/AI/AIChasePlayerState.cs" Line="23" Column="1" />
-      <File FileName="Assets/Scripts/AI/AIDeactivatedState.cs" Line="22" Column="2" />
+      <File FileName="Assets/Scripts/AI/AIChasePlayerState.cs" Line="14" Column="1" />
+      <File FileName="Assets/Scripts/AI/AIDeactivatedState.cs" Line="7" Column="9" />
       <File FileName="Assets/Scripts/AI/AISensoryMemory.cs" Line="15" Column="29" />
       <File FileName="Assets/Scripts/GameManager.cs" Line="12" Column="19" />
-      <File FileName="Assets/Scripts/Player.cs" Line="116" Column="67" />
       <File FileName="Assets/Scripts/Team.cs" Line="20" Column="24" />
       <File FileName="Assets/Scripts/AI/AIIdleState.cs" Line="21" Column="6" />
-      <File FileName="Assets/Scripts/AI/AIAgent.cs" Line="49" Column="27" />
-      <File FileName="Assets/Scripts/Human/Human.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/AI/AISensor.cs" Line="17" Column="15" />
+      <File FileName="Assets/Scripts/AI/AIAgent.cs" Line="15" Column="46" />
+      <File FileName="Assets/Scripts/AI/AIChaseBaseState.cs" Line="24" Column="20" />
+      <File FileName="Assets/Scripts/AI/AISensor.cs" Line="8" Column="32" />
+      <File FileName="Assets/Scripts/AI/AIChaseShootState.cs" Line="29" Column="22" />
+      <File FileName="Assets/Scripts/Player.cs" Line="174" Column="67" />
+      <File FileName="Assets/Scripts/Human/Human.cs" Line="40" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -22,10 +24,10 @@
             <Node name="Assembly-CSharp" expanded="True">
               <Node name="Assets" expanded="True">
                 <Node name="Scripts" expanded="True">
-                  <Node name="AI" expanded="True">
-                    <Node name="AISensor.cs" selected="True" />
+                  <Node name="AI" expanded="True" />
+                  <Node name="Human" expanded="True">
+                    <Node name="Human.cs" selected="True" />
                   </Node>
-                  <Node name="Human" expanded="True" />
                 </Node>
               </Node>
             </Node>

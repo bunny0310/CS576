@@ -5,8 +5,8 @@ using UnityEngine;
 public class AISensor : MonoBehaviour
 {
     // scan properties
-    public float distance = 5;
-    public float angle = 30;
+    public float distance = 10;
+    public float angle = 60;
     public float height = 3.2f;
     public Color meshColor = Color.red;
     public int scanFrequency = 30;

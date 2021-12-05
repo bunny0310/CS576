@@ -5,9 +5,10 @@ public class AIAgent : Player
 {
     public AIStateMachine stateMachine;
     public AIStateId initialState;
-    private Transform opponentTransform;
-    private AISensor sensor;
-    private GameObject[] buffer = new GameObject[1];
+    public GameObject opponent;
+    public int shootingDistance = 2;
+    public AISensor sensor;
+    public GameObject[] buffer = new GameObject[1];
 
     public new void Start()
     {
@@ -15,10 +16,12 @@ public class AIAgent : Player
         base.Start();
         stateMachine = new AIStateMachine(this);
         stateMachine.RegisterAIState(new AIChasePlayerState());
+        stateMachine.RegisterAIState(new AIChaseBaseState());
         stateMachine.RegisterAIState(new AIDeactivatedState());
         stateMachine.RegisterAIState(new AIIdleState());
+        stateMachine.RegisterAIState(new AIShootState());
         stateMachine.ChangeState(initialState);
-        opponentTransform = null;
+        opponent = null;
         sensor = GetComponent<AISensor>();
     }
 
@@ -26,14 +29,28 @@ public class AIAgent : Player
     {
         base.Update();
         stateMachine.Update();
-        int count = sensor.Filter(buffer, "PlayerLayer");
-        if (count > 0)
+    }
+
+    public void WalkTowardsTargetPlayer()
+    {
+        WalkTowards(opponent);
+    }
+
+    public void WalkTowardsBase()
+    {
+        var teamColor = GetComponent<PlayerConfiguration>().Team.TeamColor;
+        GameObject[] bases = new GameObject[2];
+        if (teamColor == Color.red)
         {
-            if (buffer[0].GetComponent<PlayerConfiguration>().Team.TeamColor != GetComponent<PlayerConfiguration>().Team.TeamColor)
-            {
-                stateMachine.ChangeState(AIStateId.ChasePlayer);
-            }
+            bases[0] = GameObject.Find("ArenaObjects/BaseBlue-L");
+            bases[1] = GameObject.Find("ArenaObjects/BaseBlue-R");
+        } else if (teamColor == Color.blue)
+        {
+            bases[0] = GameObject.Find("ArenaObjects/BaseRed-L");
+            bases[1] = GameObject.Find("ArenaObjects/BaseRed-R");
         }
+        System.Random random = new System.Random();
+        WalkTowards(bases[random.Next(2)]);
     }
 
     void SetAimAndShoot(GameObject detected)
@@ -49,8 +66,7 @@ public class AIAgent : Player
         {
             GetComponent<WeaponIK>().FixRotation();
             GetComponent<WeaponIK>().targetTransform = null;
-            transform.LookAt(GameObject.Find("ArenaObjects/RedChargeStation").transform);
-            WalkForwards();
+            WalkTowards(GameObject.Find("ArenaObjects/RedChargeStation"));
         }
     }
 }
