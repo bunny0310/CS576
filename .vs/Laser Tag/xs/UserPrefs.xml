@@ -1,21 +1,23 @@
-﻿<Properties StartupConfiguration="{DDD53186-92AD-D074-C920-1A665687A592}|Unit Tests">
+﻿<Properties StartupConfiguration="{BBFB00FA-5DD1-E047-1B13-AAE3D0EA9655}|Unit Tests">
   <MonoDevelop.Ide.ItemProperties.Unity.Postprocessing.Editor PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Human/Human.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/AI/AIChasePlayerState.cs">
     <Files>
-      <File FileName="Assets/Scripts/AIState.cs" Line="9" Column="10" />
+      <File FileName="Assets/Scripts/AI/AITargetSystem.cs" Line="54" Column="18" IsPinned="True" />
+      <File FileName="Assets/Scripts/AI/AISensoryMemory.cs" Line="37" Column="47" IsPinned="True" />
+      <File FileName="Assets/Scripts/AIState.cs" Line="10" Column="15" />
       <File FileName="Assets/Scripts/AIStateMachine.cs" Line="8" Column="12" />
-      <File FileName="Assets/Scripts/AI/AIChasePlayerState.cs" Line="14" Column="1" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="13" Column="12" />
       <File FileName="Assets/Scripts/AI/AIDeactivatedState.cs" Line="7" Column="9" />
-      <File FileName="Assets/Scripts/AI/AISensoryMemory.cs" Line="15" Column="29" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="12" Column="19" />
-      <File FileName="Assets/Scripts/Team.cs" Line="20" Column="24" />
-      <File FileName="Assets/Scripts/AI/AIIdleState.cs" Line="21" Column="6" />
-      <File FileName="Assets/Scripts/AI/AIAgent.cs" Line="15" Column="46" />
-      <File FileName="Assets/Scripts/AI/AIChaseBaseState.cs" Line="24" Column="20" />
-      <File FileName="Assets/Scripts/AI/AISensor.cs" Line="8" Column="32" />
-      <File FileName="Assets/Scripts/AI/AIChaseShootState.cs" Line="29" Column="22" />
-      <File FileName="Assets/Scripts/Player.cs" Line="174" Column="67" />
-      <File FileName="Assets/Scripts/Human/Human.cs" Line="40" Column="1" />
+      <File FileName="Assets/Scripts/AI/AIAgent.cs" Line="14" Column="41" />
+      <File FileName="Assets/Scripts/AI/AISensor.cs" Line="187" Column="12" />
+      <File FileName="Assets/Scripts/AI/AIChaseShootState.cs" Line="33" Column="19" />
+      <File FileName="Assets/Scripts/Player.cs" Line="164" Column="1" />
+      <File FileName="Assets/Scripts/Human/Human.cs" Line="43" Column="35" />
+      <File FileName="Assets/Scripts/AI/WeaponIK.cs" Line="70" Column="6" />
+      <File FileName="Assets/Scripts/AI/AILocomotion.cs" Line="12" Column="46" />
+      <File FileName="Assets/Scripts/Team.cs" Line="32" Column="26" />
+      <File FileName="Assets/Scripts/AI/AIFindTargetState.cs" Line="25" Column="6" />
+      <File FileName="Assets/Scripts/AI/AIChasePlayerState.cs" Line="38" Column="6" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -24,10 +26,10 @@
             <Node name="Assembly-CSharp" expanded="True">
               <Node name="Assets" expanded="True">
                 <Node name="Scripts" expanded="True">
-                  <Node name="AI" expanded="True" />
-                  <Node name="Human" expanded="True">
-                    <Node name="Human.cs" selected="True" />
+                  <Node name="AI" expanded="True">
+                    <Node name="AIChasePlayerState.cs" selected="True" />
                   </Node>
+                  <Node name="Human" expanded="True" />
                 </Node>
               </Node>
             </Node>
@@ -36,6 +38,7 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp-Editor PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

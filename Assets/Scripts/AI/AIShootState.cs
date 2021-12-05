@@ -21,7 +21,7 @@ public class AIShootState : AIState
         }
         else if (isAI)
         {
-            shootObject = ShootObject.Base;
+            shootObject = ShootObject.Player;
             player = agent.opponent.GetComponent<AIAgent>();
         }
         else if(isBase)
@@ -29,7 +29,8 @@ public class AIShootState : AIState
             shootObject = ShootObject.Base;
             player = null;
         }
-        player?.SwitchToIdle();
+        if (player)
+            player.SwitchToIdle();
     }
 
     public void Exit(AIAgent agent)
@@ -44,14 +45,31 @@ public class AIShootState : AIState
 
     public void Update(AIAgent agent)
     {
-
-        if (player && !player.DeactivatedStatus())
+        if (agent.opponent == null)
         {
-            agent.opponent = null;
-            agent.stateMachine.ChangeState(AIStateId.ChaseBase);
+            return;
+        }
+        if (shootObject == ShootObject.Player)
+        {
+            if (player && player.DeactivatedStatus())
+            {
+                agent.opponent = null;
+                agent.stateMachine.ChangeState(AIStateId.ChaseBase);
+                return;
+            }
+            agent.weapon.SetTargetTransform(agent.opponent?.transform);
             agent.Shoot(agent.opponent, player);
             return;
         }
+
+        if (shootObject == ShootObject.Base)
+        {
+            agent.weapon.SetTargetTransform(agent.opponent.transform);
+            agent.Shoot(agent.opponent);
+            return;
+        }
+        agent.weapon.FixRotation();
+        agent.weapon.SetTargetTransform(null);
     }
 }
 

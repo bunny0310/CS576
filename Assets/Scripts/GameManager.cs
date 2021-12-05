@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour
     GameObject Human;
     GameObject HumanAgent;
     GameObject AIAgent;
-    Team BlueTeam;
-    Team RedTeam;
+    public Team BlueTeam;
+    public Team RedTeam;
     public Text TimeRemaining;
     public float TimeRemainingValue = 300.0f;
     public Cinemachine.CinemachineFreeLook freeLookCamera;
@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
             cameras.Add(HumanObject.GetComponentInChildren<Camera>());
             var HumanComponent = HumanObject.GetComponent<Human>();
             HumanObject.GetComponent<PlayerConfiguration>().Team = BlueTeam;
+            BlueTeam.AddPlayer(HumanObject.GetComponent<Human>());
             freeLookCamera.LookAt = GameObject.Find($"{HumanComponent.gameObject.name}/bip").transform;
             freeLookCamera.Follow = GameObject.Find($"{HumanComponent.gameObject.name}/bip/bip Pelvis/bip Spine/bip Spine1/bip Neck/bip Head").transform;
 

@@ -13,12 +13,25 @@ public class Team
     {
         this.Ceiling = ceiling;
         this.TeamColor = teamColor;
+        Players = new List<Player>(ceiling);
+    }
+
+    public List<Player> GetPlayers()
+    {
+        return Players;
     }
 
     public bool AddPlayer(Player player) // Return false if the list has reached the cap size.
     {
-        // IMPLEMENT ME
-        return true;
+        try
+        {
+            Players.Add(player);
+            return true;
+        } catch (Exception e)
+        {
+            Debug.Log(e);
+            return false;
+        }
     }
 
     public void UpdateTeamScore (long score)

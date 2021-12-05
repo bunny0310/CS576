@@ -176,15 +176,5 @@ public class Player : MonoBehaviour
         AnimationController.SetInteger("state", (int)ANIMATION.WalkForward);
     }
 
-    public void WalkTowards(GameObject target)
-    {
-        if (target == null)
-        {
-            Debug.Log("Target cannot be null, exiting.");
-        }
-        transform.LookAt(target.transform);
-        WalkForwards();
-    }
-
 }
 

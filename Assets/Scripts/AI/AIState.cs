@@ -6,7 +6,8 @@ public enum AIStateId
     ChaseBase,
     Deactivated,
     Idle,
-    Shoot
+    Shoot,
+    FindTarget
 }
 
 public interface AIState

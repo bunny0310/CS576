@@ -5,9 +5,9 @@ using UnityEngine;
 public class AISensor : MonoBehaviour
 {
     // scan properties
-    public float distance = 10;
-    public float angle = 60;
-    public float height = 3.2f;
+    public float distance = 15;
+    public float angle = 50;
+    public float height = 5f;
     public Color meshColor = Color.red;
     public int scanFrequency = 30;
     public LayerMask layers;
@@ -181,10 +181,10 @@ public class AISensor : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, distance);
-        for (int i = 0; i < count; i++)
-        {
-            Gizmos.DrawSphere(colliders[i].transform.position, 0.2f);
-        }
+        //for (int i = 0; i < count; i++)
+        //{
+        //    Gizmos.DrawSphere(colliders[i].transform.position, 0.2f);
+        //}
 
         Gizmos.color = Color.green;
         foreach (var obj in Objects)
@@ -195,16 +195,14 @@ public class AISensor : MonoBehaviour
 
     public int Filter(GameObject[] buffer, string layerName)
     {
-        Debug.Log($"Scanner name {gameObject.name}");
         int layer = LayerMask.NameToLayer(layerName);
         int count = 0;
         foreach (var obj in Objects)
         {
-            if (obj.layer == layer)
+            if (obj.layer == layer && obj.name != gameObject.name)
             {
                 buffer[count++] = obj;
             }
-            Debug.Log($"{obj.name} added to buffer");
             if (buffer.Length == count)
             {
                 break;

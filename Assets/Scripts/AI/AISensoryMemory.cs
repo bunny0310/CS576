@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class AIMemory
 {
+    public float Age
+    {
+        get
+        {
+            return Time.time - lastSeen;
+        }
+    }
     public GameObject gameObject;
     public Vector3 posiiton;
     public Vector3 direction;
@@ -20,6 +27,16 @@ public class AISensoryMemory
     public AISensoryMemory(int maxPlayers)
     {
         characters = new GameObject[maxPlayers];
+    }
+
+    public void UpdateSenses(AISensor sensor)
+    {
+        int targets = sensor.Filter(characters, "PlayerLayer");
+        for(int i=0; i<targets; ++i)
+        {
+            GameObject target = characters[i];
+            RefreshMemory(sensor.gameObject, target);
+        }
     }
 
     public void RefreshMemory(GameObject agent, GameObject target)
@@ -42,5 +59,10 @@ public class AISensoryMemory
             memories.Add(memory);
         }
         return memory;
+    }
+
+    public void ForgetMemories(float olderThan)
+    {
+        memories.RemoveAll(memory => memory.Age > olderThan);
     }
 }
