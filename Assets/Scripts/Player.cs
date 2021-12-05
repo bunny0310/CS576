@@ -3,8 +3,9 @@ using System.Collections;
 using System.Threading;
 using UnityEngine;
 
-public abstract class Player : MonoBehaviour
+public class Player : MonoBehaviour
 {
+    public PlayerConfiguration playerConfiguration;
     protected Animator AnimationController;
     protected Camera Camera;
     protected CharacterController CharacterController;
@@ -18,7 +19,6 @@ public abstract class Player : MonoBehaviour
     protected Vector3 Position { get; set; }
     protected int Pulses { get; set; }
     protected long Score { get; set; }
-    public Team Team { get; set; }
     protected PLAYER_TYPE PlayerType { get; set; }
     public float Velocity { get; set; }
     protected Color VestColor { get; set; }
@@ -59,7 +59,7 @@ public abstract class Player : MonoBehaviour
     public void IncreaseScore(int score)
     {
         Score += score;
-        Team.UpdateTeamScore(score);
+        playerConfiguration.Team.UpdateTeamScore(score);
     }
 
     public IEnumerator OmitLight(GameObject shootObject, Vector3 location)
@@ -113,6 +113,7 @@ public abstract class Player : MonoBehaviour
 
     public void Start()
     {
+        playerConfiguration = GetComponent<PlayerConfiguration>();
         AnimationController = GetComponent<Animator>();
         Camera = GetComponentInChildren<Camera>();
         CharacterController = GetComponent<CharacterController>();
@@ -135,9 +136,9 @@ public abstract class Player : MonoBehaviour
 
     public void Update()
     {
-        if (Team != null && !VestPutOn)
+        if (playerConfiguration.Team != null && !VestPutOn)
         {
-            ChangeVestColor(Team.TeamColor);
+            ChangeVestColor(playerConfiguration.Team.TeamColor);
             VestPutOn = true;
         }
         Cursor.lockState = CursorLockMode.Locked;

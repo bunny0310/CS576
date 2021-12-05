@@ -2,13 +2,15 @@
 
 public enum AIStateId
 {
-    ChasePlayer
+    ChasePlayer,
+    Deactivated,
+    Idle
 }
 
 public interface AIState
 {
     AIStateId GetId();
-    void Enter(AI agent);
-    void Update(AI agent);
-    void Exit(AI agent);
+    void Enter(AIAgent agent);
+    void Update(AIAgent agent);
+    void Exit(AIAgent agent);
 }

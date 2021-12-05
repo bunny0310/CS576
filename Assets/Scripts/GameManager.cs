@@ -51,14 +51,14 @@ public class GameManager : MonoBehaviour
             BlueTeamtartingPoint = new Vector3(BlueTeamtartingPoint.x + 5, BlueTeamtartingPoint.y, BlueTeamtartingPoint.z);
             cameras.Add(HumanObject.GetComponentInChildren<Camera>());
             var HumanComponent = HumanObject.GetComponent<Human>();
-            HumanComponent.Team = BlueTeam;
+            HumanObject.GetComponent<PlayerConfiguration>().Team = BlueTeam;
             freeLookCamera.LookAt = GameObject.Find($"{HumanComponent.gameObject.name}/bip").transform;
             freeLookCamera.Follow = GameObject.Find($"{HumanComponent.gameObject.name}/bip/bip Pelvis/bip Spine/bip Spine1/bip Neck/bip Head").transform;
 
             for (int i=1; i<5; ++i)
             {
                 var humanAgent = Instantiate(AIAgent, BlueTeamtartingPoint, Quaternion.identity);
-                humanAgent.GetComponent<AIAgent>().Team = BlueTeam;
+                humanAgent.GetComponent<PlayerConfiguration>().Team = BlueTeam;
                 BlueTeam.AddPlayer(humanAgent.GetComponent<AIAgent>());
                 BlueTeamtartingPoint = new Vector3(BlueTeamtartingPoint.x + 5, BlueTeamtartingPoint.y, BlueTeamtartingPoint.z);
             }
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < 5; ++i)
             {
                 var aiAgent = Instantiate(AIAgent, RedTeamtartingPoint, Quaternion.Euler(0,180,0));
-                aiAgent.GetComponent<AIAgent>().Team = RedTeam;
+                aiAgent.GetComponent<PlayerConfiguration>().Team = RedTeam;
                 RedTeam.AddPlayer(aiAgent.GetComponent<AIAgent>());
                 RedTeamtartingPoint = new Vector3(RedTeamtartingPoint.x + 5, RedTeamtartingPoint.y, RedTeamtartingPoint.z);
             }

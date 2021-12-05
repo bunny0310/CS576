@@ -1,15 +1,19 @@
 ﻿<Properties StartupConfiguration="{DDD53186-92AD-D074-C920-1A665687A592}|Unit Tests">
   <MonoDevelop.Ide.ItemProperties.Unity.Postprocessing.Editor PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WeaponIK.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/AI/AISensor.cs">
     <Files>
-      <File FileName="Assets/Scripts/AI.cs" Line="108" Column="35" />
-      <File FileName="Assets/Scripts/AIAgent.cs" Line="12" Column="23" />
-      <File FileName="Assets/Scripts/AIState.cs" Line="12" Column="16" />
-      <File FileName="Assets/Scripts/AIStateMachine.cs" Line="28" Column="47" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="65" Column="1" />
-      <File FileName="Assets/Scripts/Human.cs" Line="13" Column="61" />
-      <File FileName="Assets/Scripts/Team.cs" Line="27" Column="6" />
-      <File FileName="Assets/Scripts/WeaponIK.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/AIState.cs" Line="14" Column="10" />
+      <File FileName="Assets/Scripts/AIStateMachine.cs" Line="8" Column="12" />
+      <File FileName="Assets/Scripts/AI/AIChasePlayerState.cs" Line="23" Column="1" />
+      <File FileName="Assets/Scripts/AI/AIDeactivatedState.cs" Line="22" Column="2" />
+      <File FileName="Assets/Scripts/AI/AISensoryMemory.cs" Line="15" Column="29" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="12" Column="19" />
+      <File FileName="Assets/Scripts/Player.cs" Line="116" Column="67" />
+      <File FileName="Assets/Scripts/Team.cs" Line="20" Column="24" />
+      <File FileName="Assets/Scripts/AI/AIIdleState.cs" Line="21" Column="6" />
+      <File FileName="Assets/Scripts/AI/AIAgent.cs" Line="49" Column="27" />
+      <File FileName="Assets/Scripts/Human/Human.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/AI/AISensor.cs" Line="17" Column="15" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -18,8 +22,10 @@
             <Node name="Assembly-CSharp" expanded="True">
               <Node name="Assets" expanded="True">
                 <Node name="Scripts" expanded="True">
-                  <Node name="AI" expanded="True" />
-                  <Node name="DebugScripts" expanded="True" />
+                  <Node name="AI" expanded="True">
+                    <Node name="AISensor.cs" selected="True" />
+                  </Node>
+                  <Node name="Human" expanded="True" />
                 </Node>
               </Node>
             </Node>

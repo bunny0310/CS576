@@ -1,30 +1,37 @@
 ﻿using System;
 public class AIStateMachine
 {
-    public AIState[] States;
-    public AI Agent;
-    public AIStateId CurrentState;
+    public AIState[] states;
+    public AIAgent agent;
+    public AIStateId currentState;
 
-    public AIStateMachine(AI Agent)
+    public AIStateMachine(AIAgent agent)
     {
-        this.Agent = Agent;
+        this.agent = agent;
         int numStates = System.Enum.GetNames(typeof(AIStateId)).Length;
-        this.States = new AIState[numStates];
+        this.states = new AIState[numStates];
     }
 
     public void RegisterAIState(AIState State)
     {
         int index = (int)State.GetId();
-        this.States[index] = State;
+        this.states[index] = State;
     }
 
-    public AIState GetState(AIStateId StateId)
+    public AIState GetState(AIStateId stateId)
     {
-        return this.States[(int)StateId];
+        return this.states[(int)stateId];
     }
 
     public void Update()
     {
-        GetState(CurrentState)?.Update(Agent);
+        GetState(currentState)?.Update(agent);
+    }
+
+    public void ChangeState(AIStateId newState)
+    {
+        GetState(currentState)?.Exit(agent);
+        currentState = newState;
+        GetState(currentState)?.Enter(agent);
     }
 }

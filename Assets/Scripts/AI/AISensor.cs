@@ -1,13 +1,9 @@
 ﻿using System;
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-using System.Linq;
+using UnityEngine;
 
-public abstract class AI : Player
+public class AISensor : MonoBehaviour
 {
-
     // scan properties
     public float distance = 5;
     public float angle = 30;
@@ -18,18 +14,14 @@ public abstract class AI : Player
     public LayerMask occlusionLayers;
     UnityEngine.AI.NavMeshAgent agent;
 
-    public List<GameObject> objs
-    {
+    public List<GameObject> Objects {
         get
         {
-            Objects.RemoveAll(o => !o);
-            return Objects;
+            objects.RemoveAll(obj => !obj);
+            return objects;
         }
-        set { }
     }
-    private List<GameObject> Objects = new List<GameObject>();
-
-    GameObject human;
+    private List<GameObject> objects = new List<GameObject>();
     Collider[] colliders = new Collider[50];
     Mesh mesh;
     int count;
@@ -37,83 +29,33 @@ public abstract class AI : Player
     float scanTimer;
     Renderer rend;
 
-
-
-    public new void Start()
+    public void Start()
     {
-        base.Start();
         scanInterval = 1.0f / scanFrequency;
-        //transform.LookAt(GameObject.Find("ArenaObjects/BaseBlue-L").transform);
-        //WalkForwards();
     }
 
-    public new void Update()
+    public void Update()
     {
-        base.Update();
         scanTimer -= Time.deltaTime;
         if (scanTimer < 0)
         {
             scanTimer += scanInterval;
-            var scannedObjects = Scan();
-            if (scannedObjects.Count != 0)
-            {
-                var baseObj = ScannedBase(objs);
-                var opponent = ScannedOpponent(objs);
-                if (opponent)
-                {
-                    Debug.Log(opponent.name);
-                    GetComponent<WeaponIK>().targetTransform = opponent.transform.Find("CenterTag");
-                    SwitchToIdle();
-                    SetAimAndShoot(opponent.transform.Find("CenterTag").gameObject);
-                }
-                else if (baseObj)
-                {
-                    GetComponent<WeaponIK>().targetTransform = baseObj.transform.Find("Light");
-                    SwitchToIdle();
-                    SetAimAndShoot(baseObj.transform.Find("Light").gameObject);
-                }
-
-            } else
-            {
-                GetComponent<WeaponIK>().FixRotation();
-                GetComponent<WeaponIK>().targetTransform = null;
-            }
+            Scan();
         }
     }
 
-    private GameObject ScannedOpponent(List<GameObject> objs)
-    {
-        var opponent = objs.Find(obj => obj.name.Contains("Agent"));
-        if (opponent == null)
-        {
-            return null;
-        }
-        if (opponent.GetComponent<Human>() && !(opponent.GetComponent<Human>().Team.TeamColor.Equals(GetComponent<AIAgent>().Team.TeamColor)))
-            return opponent;
-        if (!(opponent.GetComponent<AIAgent>().Team.TeamColor.Equals(GetComponent<AIAgent>().Team.TeamColor)))
-            return opponent;
-        return null;
-    }
-
-    private GameObject ScannedBase(List<GameObject> objs)
-    {
-        return objs.Find(obj => obj.name.Contains("Base"));
-    }
-
-    private List<GameObject> Scan()
+    private void Scan()
     {
         colliders = new Collider[50];
-        objs.Clear();
+        objects.Clear();
         count = Physics.OverlapSphereNonAlloc(transform.position, distance, colliders, layers, QueryTriggerInteraction.Collide);
-        for(int i=0; i<count; ++i)
+        for (int i = 0; i < count; ++i)
         {
-            if (IsInsight(colliders[i].gameObject))
+            if (IsInsight(colliders[i].gameObject) && !colliders[i].gameObject.name.Equals(gameObject.name))
             {
-                objs.Add(colliders[i].gameObject);
+                objects.Add(colliders[i].gameObject);
             }
         }
-        
-        return objs;
     }
 
     public bool IsInsight(GameObject obj)
@@ -245,33 +187,29 @@ public abstract class AI : Player
         }
 
         Gizmos.color = Color.green;
-        foreach (var obj in objs)
+        foreach (var obj in Objects)
         {
             Gizmos.DrawSphere(obj.transform.position, 0.2f);
         }
     }
 
-    void SetAimAndShoot(GameObject detected)
+    public int Filter(GameObject[] buffer, string layerName)
     {
-        if (detected == null)
+        Debug.Log($"Scanner name {gameObject.name}");
+        int layer = LayerMask.NameToLayer(layerName);
+        int count = 0;
+        foreach (var obj in Objects)
         {
-            return;
+            if (obj.layer == layer)
+            {
+                buffer[count++] = obj;
+            }
+            Debug.Log($"{obj.name} added to buffer");
+            if (buffer.Length == count)
+            {
+                break;
+            }
         }
-        gameObject.GetComponent<WeaponIK>().SetTargetTransform(detected.transform);
-        Shoot(detected);
-        Debug.Log(Pulses);
-        if (IsDeactivated)
-        {
-            GetComponent<WeaponIK>().FixRotation();
-            GetComponent<WeaponIK>().targetTransform = null;
-            transform.LookAt(GameObject.Find("ArenaObjects/RedChargeStation").transform);
-            WalkForwards();
-        }
+        return count;
     }
-
-    void RemoveAim()
-    {
-        gameObject.GetComponent<WeaponIK>().targetTransform = null;
-    }
-
 }
