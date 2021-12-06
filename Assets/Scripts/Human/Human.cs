@@ -13,6 +13,15 @@ public class Human : Player
         base.Start();
     }
 
+    public new void Shoot(GameObject shootObject, Player player = null)
+    {
+        base.Shoot(shootObject, player);
+        if (IsDeactivated)
+        {
+            return;
+        }
+    }
+
     public new void Update()
     {
         base.Update();

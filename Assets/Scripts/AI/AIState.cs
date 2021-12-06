@@ -7,7 +7,8 @@ public enum AIStateId
     Deactivated,
     Idle,
     Shoot,
-    FindTarget
+    FindTarget,
+    ChargeStation
 }
 
 public interface AIState

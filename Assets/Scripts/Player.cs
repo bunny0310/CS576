@@ -6,7 +6,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public PlayerConfiguration playerConfiguration;
-    protected Animator AnimationController;
+    public Animator AnimationController;
     protected Camera Camera;
     protected CharacterController CharacterController;
     protected int Energy { get; set; }
@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     public Light VestLightFront { get; set; }
     public Light VestLightBack { get; set; }
     private bool justShot = false;
+    public GameObject ChargeStation;
 
     public void ChangeVestColor(Color color)
     {
@@ -98,16 +99,15 @@ public class Player : MonoBehaviour
 
     public void Recharge()
     {
-        // IMPLEMENT ME
+        Pulses = Constants.Pulses;
+        Energy = Constants.Energy;
+        IsDeactivated = false;
     }
 
     public void Shoot(GameObject shootObject, Player player = null)
     {
+        Debug.Log($"Getting the player {player}");
         if (justShot)
-        {
-            return;
-        }
-        if (IsDeactivated)
         {
             return;
         }
@@ -117,6 +117,8 @@ public class Player : MonoBehaviour
             if (player != null)
             {
                 player.DecreaseEnergy();
+                player.GetComponent<PlayerConfiguration>().Team.UpdateTeamScore(-150);
+                GetComponent<PlayerConfiguration>().Team.UpdateTeamScore(250);
             }
             DecreasePulses();
             StartCoroutine(this.OmitLight(shootObject, shootObject.transform.position));

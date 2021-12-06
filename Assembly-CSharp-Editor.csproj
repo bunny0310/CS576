@@ -36,13 +36,6 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\TheKiwiCoder\BehaviourTree\Scripts\Editor\BehaviourTreeView.cs" />
-     <Compile Include="Assets\TheKiwiCoder\BehaviourTree\Scripts\Editor\InspectorView.cs" />
-     <Compile Include="Assets\TheKiwiCoder\BehaviourTree\Scripts\Editor\NodeView.cs" />
-     <Compile Include="Assets\TheKiwiCoder\BehaviourTree\Scripts\Editor\DoubleClickSelection.cs" />
-     <Compile Include="Assets\TheKiwiCoder\BehaviourTree\Scripts\Editor\BehaviourTreeSettings.cs" />
-     <Compile Include="Assets\TheKiwiCoder\BehaviourTree\Scripts\Editor\BehaviourTreeEditor.cs" />
-     <Compile Include="Assets\TheKiwiCoder\BehaviourTree\Scripts\Editor\SplitView.cs" />
      <Compile Include="Assets\Shared\Ramps\Editor\RampAssetEditor.cs" />
      <Compile Include="Assets\TutorialInfo\Scripts\Editor\ReadmeEditor.cs" />
      <None Include="Assets\SDF_BasicTrainingStage\PostProcessing\Shaders\Editor\CurveGrid.shader" />

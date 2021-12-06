@@ -21,7 +21,6 @@ public class AIChaseBaseState : AIState
 
     public void Update(AIAgent agent)
     {
-        agent.WalkTowardsBase(baseObj);
         int count = agent.sensor.Filter(agent.buffer, "PlayerLayer");
         if (count > 0)
         {

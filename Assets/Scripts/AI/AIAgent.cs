@@ -26,6 +26,7 @@ public class AIAgent : Player
         stateMachine.RegisterAIState(new AIIdleState());
         stateMachine.RegisterAIState(new AIShootState());
         stateMachine.RegisterAIState(new AIFindTargetState());
+        stateMachine.RegisterAIState(new AIChargeStationState());
         stateMachine.ChangeState(initialState);
         opponent = null;
         sensor = GetComponent<AISensor>();
@@ -44,8 +45,13 @@ public class AIAgent : Player
         }
     }
 
-    public void WalkTowardsTargetPlayer()
+    public new void Shoot(GameObject shootObject, Player player = null)
     {
+        base.Shoot(shootObject, player);
+        if (IsDeactivated)
+        {
+            stateMachine.ChangeState(AIStateId.ChargeStation);
+        }
     }
 
     public GameObject SelectBase()
@@ -65,20 +71,5 @@ public class AIAgent : Player
         System.Random random = new System.Random();
         var randomBase = bases[random.Next(2)];
         return randomBase;
-    }
-
-    public void WalkTowardsBase(GameObject baseObj)
-    {
-    }
-
-    void SetAimAndShoot(GameObject detected)
-    {
-        if (detected == null)
-        {
-            return;
-        }
-        gameObject.GetComponent<WeaponIK>().SetTargetTransform(detected.transform);
-        Shoot(detected);
-        Debug.Log(Pulses);
     }
 }

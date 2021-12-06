@@ -34,8 +34,14 @@ public class Team
         }
     }
 
+    public long GetScore()
+    {
+        return Score;
+    }
+
     public void UpdateTeamScore (long score)
     {
-        // IMPLEMENT ME
+        Debug.Log("Updating score");
+        Score += score;
     }
 }

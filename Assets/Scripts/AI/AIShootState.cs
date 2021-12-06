@@ -1,4 +1,6 @@
 ﻿using System;
+using UnityEngine;
+
 enum ShootObject
 {
     Player,
@@ -10,27 +12,7 @@ public class AIShootState : AIState
     ShootObject shootObject;
     public void Enter(AIAgent agent)
     {
-        agent.SwitchToIdle();
-        var isHuman = agent.opponent.name.Contains("HumanAgent");
-        var isBase = agent.opponent.name.Contains("Base");
-        var isAI = !isHuman && agent.opponent.name.Contains("Agent");
-        if (isHuman)
-        {
-            shootObject = ShootObject.Player;
-            player = agent.opponent.GetComponent<Human>();
-        }
-        else if (isAI)
-        {
-            shootObject = ShootObject.Player;
-            player = agent.opponent.GetComponent<AIAgent>();
-        }
-        else if(isBase)
-        {
-            shootObject = ShootObject.Base;
-            player = null;
-        }
-        if (player)
-            player.SwitchToIdle();
+        agent.AnimationController.SetFloat("Speed", 0.0f);
     }
 
     public void Exit(AIAgent agent)
@@ -45,31 +27,25 @@ public class AIShootState : AIState
 
     public void Update(AIAgent agent)
     {
-        if (agent.opponent == null)
+        if (!agent.targetSystem.HasTarget)
         {
             return;
         }
-        if (shootObject == ShootObject.Player)
+        var isPlayer = agent.targetSystem.Target.GetComponent<PlayerConfiguration>();
+        Player player = null;
+        if (isPlayer)
         {
-            if (player && player.DeactivatedStatus())
+            if (agent.targetSystem.Target.GetComponent<AIAgent>())
             {
-                agent.opponent = null;
-                agent.stateMachine.ChangeState(AIStateId.ChaseBase);
-                return;
+                player = agent.targetSystem.Target.GetComponent<AIAgent>();
+            } else if (agent.targetSystem.Target.GetComponent<Human>())
+            {
+                player = agent.targetSystem.Target.GetComponent<Human>();
             }
-            agent.weapon.SetTargetTransform(agent.opponent?.transform);
-            agent.Shoot(agent.opponent, player);
-            return;
+            Debug.Log($"Player is ? - {player}");
         }
-
-        if (shootObject == ShootObject.Base)
-        {
-            agent.weapon.SetTargetTransform(agent.opponent.transform);
-            agent.Shoot(agent.opponent);
-            return;
-        }
-        agent.weapon.FixRotation();
-        agent.weapon.SetTargetTransform(null);
+        agent.weapon.SetTargetTransform(agent.targetSystem.Target.transform.Find("CenterTag").transform);
+        agent.Shoot(agent.targetSystem.Target, player);
     }
 }
 
