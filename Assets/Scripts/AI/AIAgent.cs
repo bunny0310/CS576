@@ -38,6 +38,10 @@ public class AIAgent : Player
     public new void Update()
     {
         base.Update();
+        if (DeactivatedStatus())
+        {
+            stateMachine.ChangeState(AIStateId.ChargeStation);
+        }
         stateMachine.Update();
         if (Input.GetKeyDown(KeyCode.Z))
         {

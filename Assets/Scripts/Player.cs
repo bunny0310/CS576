@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
     public Light VestLightBack { get; set; }
     private bool justShot = false;
     public GameObject ChargeStation;
+    public AudioClip RechargeClip;
 
     public void ChangeVestColor(Color color)
     {
@@ -106,17 +107,20 @@ public class Player : MonoBehaviour
 
     public void Shoot(GameObject shootObject, Player player = null)
     {
-        Debug.Log($"Getting the player {player}");
         if (justShot)
         {
             return;
         }
         try
         {
+            Debug.Log($"Shooting... \n Player attacked - {player != null}");
             justShot = true;
             if (player != null)
             {
+                Debug.Log("Great Tag!");
                 player.DecreaseEnergy();
+                Debug.Log($"Energy reamining - {player.Energy}");
+                Debug.Log($"Deactivated status - {player.IsDeactivated}");
                 player.GetComponent<PlayerConfiguration>().Team.UpdateTeamScore(-150);
                 GetComponent<PlayerConfiguration>().Team.UpdateTeamScore(250);
             }

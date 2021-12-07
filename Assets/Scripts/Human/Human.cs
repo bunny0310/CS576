@@ -57,10 +57,30 @@ public class Human : Player
             RaycastHit hit;
             var origin = GameObject.Find($"{gameObject.name}/bip/bip Pelvis/bip Spine/bip Spine1/bip R Clavicle/GunPivot/ShootPoint/WeaponRaycast");
             var shootOut = Physics.Raycast(origin.transform.position, origin.transform.forward, out hit, 100);
-            if (hit.collider != null)
+            Debug.DrawLine(origin.transform.position, origin.transform.forward, Color.black, 100);
+            if (shootOut && hit.collider != null)
             {
-                Shoot(hit.collider.gameObject);
+                Shoot(hit.collider.gameObject, Configuration.RetreivePlayer(hit.collider.gameObject));
             }
+        }
+
+        try
+        {
+            RaycastHit hit;
+            var scan = Physics.Raycast(transform.Find("bip/bip Pelvis/bip Spine/bip Spine1/bip Neck/bip Head").position, transform.forward, out hit, 5.0f);
+            if (scan && hit.collider != null)
+            {
+                Debug.Log($"Human scanning {hit.collider.gameObject.name}");
+                if (hit.collider.gameObject.name.Equals(ChargeStation.name))
+                {
+                    Debug.Log("Close to charging station");
+                    GameObject.Find("RechargeAudioSource").GetComponent<AudioSource>().PlayOneShot(RechargeClip);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
         }
 
     }

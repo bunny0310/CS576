@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
             GameObject HumanObject = Instantiate(Human, BlueTeamtartingPoint, Quaternion.identity);
             BlueTeamtartingPoint = new Vector3(BlueTeamtartingPoint.x + 5, BlueTeamtartingPoint.y, BlueTeamtartingPoint.z);
             var HumanComponent = HumanObject.GetComponent<Human>();
-            HumanComponent.ChargeStation = GameObject.Find("ArenaObjects/BlueChargeStation");
+            HumanComponent.ChargeStation = GameObject.Find("ArenaObjects/ChargeStationBlue");
             HumanObject.GetComponent<PlayerConfiguration>().Team = BlueTeam;
             BlueTeam.AddPlayer(HumanObject.GetComponent<Human>());
             freeLookCamera.LookAt = GameObject.Find($"{HumanComponent.gameObject.name}/bip").transform;
@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
             {
                 var humanAgent = Instantiate(AIAgent, BlueTeamtartingPoint, Quaternion.identity);
                 humanAgent.GetComponent<PlayerConfiguration>().Team = BlueTeam;
-                humanAgent.GetComponent<AIAgent>().ChargeStation = GameObject.Find("ArenaObjects/BlueChargeStation"); 
+                humanAgent.GetComponent<AIAgent>().ChargeStation = GameObject.Find("ArenaObjects/ChargeStationBlue"); 
                 BlueTeam.AddPlayer(humanAgent.GetComponent<AIAgent>());
                 BlueTeamtartingPoint = new Vector3(BlueTeamtartingPoint.x + 5, BlueTeamtartingPoint.y, BlueTeamtartingPoint.z);
             }
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
             {
                 var aiAgent = Instantiate(AIAgent, RedTeamtartingPoint, Quaternion.Euler(0,180,0));
                 aiAgent.GetComponent<PlayerConfiguration>().Team = RedTeam;
-                aiAgent.GetComponent<AIAgent>().ChargeStation = GameObject.Find("ArenaObjects/RedChargeStation");
+                aiAgent.GetComponent<AIAgent>().ChargeStation = GameObject.Find("ArenaObjects/ChargeStationRed");
                 RedTeam.AddPlayer(aiAgent.GetComponent<AIAgent>());
                 RedTeamtartingPoint = new Vector3(RedTeamtartingPoint.x + 5, RedTeamtartingPoint.y, RedTeamtartingPoint.z);
             }

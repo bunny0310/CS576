@@ -31,20 +31,10 @@ public class AIShootState : AIState
         {
             return;
         }
-        var isPlayer = agent.targetSystem.Target.GetComponent<PlayerConfiguration>();
-        Player player = null;
-        if (isPlayer)
-        {
-            if (agent.targetSystem.Target.GetComponent<AIAgent>())
-            {
-                player = agent.targetSystem.Target.GetComponent<AIAgent>();
-            } else if (agent.targetSystem.Target.GetComponent<Human>())
-            {
-                player = agent.targetSystem.Target.GetComponent<Human>();
-            }
-            Debug.Log($"Player is ? - {player}");
-        }
-        agent.weapon.SetTargetTransform(agent.targetSystem.Target.transform.Find("CenterTag").transform);
+        Player player = Configuration.RetreivePlayer(agent.targetSystem.Target.transform.parent.gameObject);
+        GameObject target = agent.targetSystem.Target;
+        agent.transform.LookAt(target.transform);
+        agent.weapon.SetTargetTransform(target.transform.parent.gameObject.name.Contains("Agent") ? target.transform : target.transform.Find("origin").transform);
         agent.Shoot(agent.targetSystem.Target, player);
     }
 }

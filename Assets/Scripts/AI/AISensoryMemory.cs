@@ -64,5 +64,7 @@ public class AISensoryMemory
     public void ForgetMemories(float olderThan)
     {
         memories.RemoveAll(memory => memory.Age > olderThan);
+        memories.RemoveAll(memory => !memory.gameObject);
+        memories.RemoveAll(memory => !Configuration.RetreivePlayer(memory.gameObject).DeactivatedStatus());
     }
 }
