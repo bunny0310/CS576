@@ -44,8 +44,8 @@ public class GameManager : MonoBehaviour
         }
             
 
-        BlueTeam = new Team(5, Color.blue);
-        RedTeam = new Team(5, Color.red);
+        BlueTeam = new Team(5, Color.blue, "Blue");
+        RedTeam = new Team(5, Color.red, "red");
 
         try
         {
@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
             DisplayTime(TimeRemainingValue);
         }
 
-        RedScore.text = "250";
+        RedScore.text = RedTeam.GetScore().ToString();
         BlueScore.text = BlueTeam.GetScore().ToString();
 
         if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)

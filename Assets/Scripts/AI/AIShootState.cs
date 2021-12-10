@@ -8,11 +8,14 @@ enum ShootObject
 }
 public class AIShootState : AIState
 {
-    Player player;
+    //Player player;
     ShootObject shootObject;
     public void Enter(AIAgent agent)
     {
-        agent.AnimationController.SetFloat("Speed", 0.0f);
+        //agent.AnimationController.SetFloat("Speed", 0.0f);
+        if (!agent.targetSystem.TargetPlayerInSight)
+            agent.stateMachine.ChangeState(AIStateId.FindTarget);
+        agent.weapon.SetTargetTransform(agent.targetSystem.TargetPlayer.transform);
     }
 
     public void Exit(AIAgent agent)
@@ -27,15 +30,9 @@ public class AIShootState : AIState
 
     public void Update(AIAgent agent)
     {
-        if (!agent.targetSystem.HasTarget)
-        {
-            return;
-        }
-        Player player = Configuration.RetreivePlayer(agent.targetSystem.Target.transform.parent.gameObject);
-        GameObject target = agent.targetSystem.Target;
-        agent.transform.LookAt(target.transform);
-        agent.weapon.SetTargetTransform(target.transform.parent.gameObject.name.Contains("Agent") ? target.transform : target.transform.Find("origin").transform);
-        agent.Shoot(agent.targetSystem.Target, player);
+        if (!agent.targetSystem.TargetPlayerInSight)
+            agent.stateMachine.ChangeState(AIStateId.FindTarget);
+        agent.Shoot(agent.targetSystem.TargetPlayer, Configuration.RetreivePlayer(agent.targetSystem.TargetPlayer));
     }
 }
 

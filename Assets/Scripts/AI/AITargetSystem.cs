@@ -4,9 +4,11 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class AITargetSystem : MonoBehaviour
 {
-    AISensoryMemory sensoryMemory = new AISensoryMemory(10);
+    AISensoryMemory sensoryMemoryPlayers = new AISensoryMemory(10, "PlayerLayer");
+    AISensoryMemory sensoryMemoryBases = new AISensoryMemory(3, "BaseLayer");
     AISensor sensor;
-    AIMemory bestMemory;
+    AIMemory bestMemoryPlayer;
+    AIMemory bestMemoryBase;
     public float memorySpan = 3.0f;
     [Range(0, 1)]
     public float distanceWeight = 1.0f;
@@ -15,43 +17,43 @@ public class AITargetSystem : MonoBehaviour
     [Range(0, 1)]
     public float ageWeight = 1.0f;
 
-    public bool HasTarget
+    public bool HasTargetPlayer
     {
         get
         {
-            return bestMemory != null;
+            return bestMemoryPlayer != null;
         }
     }
 
-    public GameObject Target
+    public GameObject TargetPlayer
     {
         get
         {
-            return bestMemory.gameObject;
+            return bestMemoryPlayer.gameObject;
         }
     }
 
-    public Vector3 TargetPosition
+    public Vector3 TargetPlayerPosition
     {
         get
         {
-            return bestMemory.posiiton;
+            return bestMemoryPlayer.posiiton;
         }
     }
 
-    public bool TargetInSight
+    public bool TargetPlayerInSight
     {
         get
         {
-            return bestMemory.Age < 0.5f;
+            return bestMemoryPlayer != null && bestMemoryPlayer.Age < 0.5f;
         }
     }
 
-    public float TargetDistance
+    public float TargetPlayerDistance
     {
         get
         {
-           return bestMemory.distance;
+           return bestMemoryPlayer.distance;
         }
     }
 
@@ -62,12 +64,25 @@ public class AITargetSystem : MonoBehaviour
 
     void EvaluateScores()
     {
-        foreach(var memory in sensoryMemory.memories)
+        foreach(var memory in sensoryMemoryPlayers.memories)
+        {
+            if(!Configuration.OppositeTeams(Configuration.RetreivePlayer(memory.gameObject), Configuration.RetreivePlayer(gameObject)))
+            {
+                continue;
+            }
+            memory.score = CalculateScore(memory);
+            if (bestMemoryPlayer == null || memory.score > bestMemoryPlayer.score)
+            {
+                bestMemoryPlayer = memory;
+            }
+        }
+
+        foreach (var memory in sensoryMemoryBases.memories)
         {
             memory.score = CalculateScore(memory);
-            if (bestMemory == null || memory.score > bestMemory.score)
+            if (bestMemoryBase == null || memory.score > bestMemoryBase.score)
             {
-                bestMemory = memory;
+                bestMemoryBase = memory;
             }
         }
     }
@@ -87,33 +102,28 @@ public class AITargetSystem : MonoBehaviour
 
     public void Update()
     {
-        sensoryMemory.UpdateSenses(sensor);
-        sensoryMemory.ForgetMemories(memorySpan);
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            Debug.Log($"{gameObject.name}'s memories - ");
-            sensoryMemory.memories.ForEach(m =>
-            {
-                Debug.Log(m.Age);
-            });
-        }
+        sensoryMemoryPlayers.UpdateSenses(sensor);
+        sensoryMemoryBases.UpdateSenses(sensor);
+
+        sensoryMemoryPlayers.ForgetMemories(memorySpan);
+        sensoryMemoryBases.ForgetMemories(memorySpan);
         EvaluateScores();
     }
 
     private void OnDrawGizmos()
     {
         float maxScore = float.MinValue;
-        foreach (var memory in sensoryMemory.memories)
+        foreach (var memory in sensoryMemoryPlayers.memories)
         {
             if(memory.score > maxScore)
             {
                 maxScore = memory.score;
             }
         }
-        foreach(var memory in sensoryMemory.memories)
+        foreach(var memory in sensoryMemoryPlayers.memories)
         {
             Color color = Color.red;
-            if (memory == bestMemory)
+            if (memory == bestMemoryPlayer)
             {
                 color = Color.yellow;
             }

@@ -7,7 +7,7 @@ public class AISensor : MonoBehaviour
     // scan properties
     public float distance = 15;
     public float angle = 50;
-    public float height = 5f;
+    public float height = 3.2f;
     public Color meshColor = Color.red;
     public int scanFrequency = 30;
     public LayerMask layers;
@@ -42,6 +42,10 @@ public class AISensor : MonoBehaviour
             scanTimer += scanInterval;
             Scan();
         }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            Debug.Log($"{gameObject.name}'s scanned objects are  - {Objects[0]}");
+        }
     }
 
     private void Scan()
@@ -60,17 +64,23 @@ public class AISensor : MonoBehaviour
 
     public bool IsInsight(GameObject obj)
     {
+        Debug.Log($"{gameObject.name } - Checking if {obj.name} is in sight");
         Vector3 origin = transform.position;
         Vector3 destination = obj.transform.position;
         Vector3 direction = destination - origin;
         if (direction.y < 0 || direction.y > height)
         {
+            Debug.Log(transform.position.y);
+            Debug.Log(obj.transform.position.y);
+            Debug.Log(direction.y);
+            Debug.Log("height failure");
             return false;
         }
         direction.y = 0;
         float deltaAngle = Vector3.Angle(direction, transform.forward);
         if (deltaAngle > angle)
         {
+            Debug.Log("angle failure");
             return false;
         }
         //origin.y += height / 2;
@@ -181,15 +191,15 @@ public class AISensor : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, distance);
-        //for (int i = 0; i < count; i++)
-        //{
-        //    Gizmos.DrawSphere(colliders[i].transform.position, 0.2f);
-        //}
+        for (int i = 0; i < count; i++)
+        {
+            Gizmos.DrawSphere(colliders[i].transform.position, 0.4f);
+        }
 
         Gizmos.color = Color.green;
         foreach (var obj in Objects)
         {
-            Gizmos.DrawSphere(obj.transform.position, 0.2f);
+            Gizmos.DrawSphere(obj.transform.position, 0.4f);
         }
     }
 
@@ -197,9 +207,10 @@ public class AISensor : MonoBehaviour
     {
         int layer = LayerMask.NameToLayer(layerName);
         int count = 0;
+        var playerLayer = layerName.Equals("PlayerLayer");
         foreach (var obj in Objects)
         {
-            if (obj.layer == layer && obj.name != gameObject.name)
+            if (obj.layer == layer && !obj.name.Equals(gameObject.name))
             {
                 buffer[count++] = obj;
             }

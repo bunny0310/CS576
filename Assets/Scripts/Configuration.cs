@@ -37,4 +37,9 @@ public static class Configuration
         }
         return player;
     }
+
+    public static bool OppositeTeams(Player player1, Player player2)
+    {
+        return player1.GetComponent<PlayerConfiguration>().Team.TeamColor != player2.GetComponent<PlayerConfiguration>().Team.TeamColor;
+    }
 }

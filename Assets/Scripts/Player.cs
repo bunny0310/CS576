@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     private bool justShot = false;
     public GameObject ChargeStation;
     public AudioClip RechargeClip;
+    public AudioClip ShootClip;
 
     public void ChangeVestColor(Color color)
     {
@@ -41,9 +42,7 @@ public class Player : MonoBehaviour
             Energy--;
         else
         {
-            Pulses = 0;
-            Energy = 0;
-            IsDeactivated = true;
+            Deactivate();
         }
     }
 
@@ -53,10 +52,16 @@ public class Player : MonoBehaviour
             Pulses--;
         else
         {
-            Pulses = 0;
-            Energy = 0;
-            IsDeactivated = true;
+            Deactivate();
         }
+    }
+
+    private void Deactivate()
+    {
+        Pulses = 0;
+        Energy = 0;
+        IsDeactivated = true;
+        ChangeVestColor(Color.yellow);
     }
 
     public void DuckDown()
@@ -87,10 +92,8 @@ public class Player : MonoBehaviour
         justShot = false;
     }
 
-    protected bool OnChargeStation()
+    protected void OnChargeStation()
     {
-        // IMPLEMENT ME
-        return true;
     }
 
     public bool DeactivatedStatus()
@@ -103,14 +106,22 @@ public class Player : MonoBehaviour
         Pulses = Constants.Pulses;
         Energy = Constants.Energy;
         IsDeactivated = false;
+        ChangeVestColor(playerConfiguration.Team.TeamColor);
     }
 
     public void Shoot(GameObject shootObject, Player player = null)
     {
+        if (IsDeactivated)
+        {
+            return;
+        }
         if (justShot)
         {
             return;
         }
+        var rechargeAudioSource = GameObject.Find("RechargeAudioSource").GetComponent<AudioSource>();
+        if (!rechargeAudioSource.isPlaying)
+            rechargeAudioSource.PlayOneShot(ShootClip);
         try
         {
             Debug.Log($"Shooting... \n Player attacked - {player != null}");
@@ -123,9 +134,9 @@ public class Player : MonoBehaviour
                 Debug.Log($"Deactivated status - {player.IsDeactivated}");
                 player.GetComponent<PlayerConfiguration>().Team.UpdateTeamScore(-150);
                 GetComponent<PlayerConfiguration>().Team.UpdateTeamScore(250);
+                StartCoroutine(this.OmitLight(shootObject.transform.Find("CenterTag").gameObject, shootObject.transform.Find("CenterTag").position));
             }
             DecreasePulses();
-            StartCoroutine(this.OmitLight(shootObject, shootObject.transform.position));
         } catch (Exception e)
         {
             Debug.Log(e);
@@ -163,10 +174,10 @@ public class Player : MonoBehaviour
             VestPutOn = true;
         }
         Cursor.lockState = CursorLockMode.Locked;
-        if (transform.position.y > 0.51f)
-        {
-            transform.position = new Vector3(transform.position.x, 0.51f, transform.position.z);
-        }
+        //if (transform.position.y > 0.51f)
+        //{
+        //    transform.position = new Vector3(transform.position.x, 0.51f, transform.position.z);
+        //}
 
         GetComponent<CapsuleCollider>().center = new Vector3(GetComponent<CapsuleCollider>().center.x, 0.9f, GetComponent<CapsuleCollider>().center.z);
         float xdirection = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.y);

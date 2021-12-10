@@ -70,11 +70,11 @@ public class Human : Player
             var scan = Physics.Raycast(transform.Find("bip/bip Pelvis/bip Spine/bip Spine1/bip Neck/bip Head").position, transform.forward, out hit, 5.0f);
             if (scan && hit.collider != null)
             {
-                Debug.Log($"Human scanning {hit.collider.gameObject.name}");
                 if (hit.collider.gameObject.name.Equals(ChargeStation.name))
                 {
-                    Debug.Log("Close to charging station");
-                    GameObject.Find("RechargeAudioSource").GetComponent<AudioSource>().PlayOneShot(RechargeClip);
+                    var rechargeAudioSource = GameObject.Find("RechargeAudioSource").GetComponent<AudioSource>();
+                    if (!rechargeAudioSource.isPlaying)
+                        rechargeAudioSource.PlayOneShot(RechargeClip);
                 }
             }
         }

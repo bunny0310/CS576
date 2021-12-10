@@ -4,7 +4,7 @@ using UnityEngine;
 public class AIFindTargetState : AIState
 {
     public float maxDistance = 1.0f;
-    public float maxTime = 10.0f;
+    public float maxTime = 1.0f;
     float timer = 0.0f;
 
     GameObject floor = GameObject.Find("TrainingStage_Background/Floor");
@@ -12,7 +12,8 @@ public class AIFindTargetState : AIState
 
     public void Enter(AIAgent agent)
     {
-        Debug.Log("Entering find target state");
+        agent.AnimationController.SetBool("DuckingDown", false);
+        agent.weapon.FixRotation();
         agent.navMeshAgent.stoppingDistance = 15.0f;
     }
 
@@ -32,23 +33,41 @@ public class AIFindTargetState : AIState
             timer -= Time.deltaTime;
             if (timer <= 0.0f)
             {
-                    if ((agent.transform.position - agent.navMeshAgent.destination).magnitude <= agent.navMeshAgent.stoppingDistance)
-                    {
-                        var newx = (float)random.Next(30);
-                        var newy = 0.5f;
-                        var newz = (float)random.Next(44);
-                        var randomPosition = new Vector3(newx, newy, newz);
-                        Debug.Log(randomPosition);
-                        agent.navMeshAgent.destination = randomPosition;
-                    }
+                if ((agent.transform.position - agent.navMeshAgent.destination).magnitude <= agent.navMeshAgent.stoppingDistance
+                && !agent.targetSystem.TargetPlayerInSight)
+                {
+                    var newx = (float)random.Next(-22, 22);
+                    var newy = 0.5f;
+                    var newz = (float)random.Next(-45, 45);
+                    var randomPosition = new Vector3(newx, newy, newz);
+                    agent.navMeshAgent.destination = randomPosition;
+                }
                 timer = maxTime;
             }
-            if (agent.targetSystem.HasTarget)
+
+            if (agent.targetSystem.TargetPlayerInSight)
             {
-                if (agent.targetSystem.Target.name.Contains("Base")
-                    || Configuration.RetreivePlayer(agent.gameObject).GetComponent<PlayerConfiguration>().Team.TeamColor != Configuration.RetreivePlayer(agent.targetSystem.Target).GetComponent<PlayerConfiguration>().Team.TeamColor)
-                agent.stateMachine.ChangeState(AIStateId.Shoot);
+                agent.stateMachine.ChangeState(AIStateId.ChasePlayer);
             }
+            //if (agent.attacker)
+            //{
+            //    var choice = random.Next(2);
+            //    switch (choice)
+            //    {
+            //        case 0:
+            //            agent.DuckDown();
+            //            break;
+            //        case 1:
+            //            agent.stateMachine.ChangeState(AIStateId.Shoot);
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //} else
+            //{
+            //    agent.SwitchToBlendTree();
+            //}
+
         }
         catch (Exception e)
         {

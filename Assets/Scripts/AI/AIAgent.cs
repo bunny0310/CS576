@@ -38,15 +38,39 @@ public class AIAgent : Player
     public new void Update()
     {
         base.Update();
+        OnChargeStation();
         if (DeactivatedStatus())
         {
             stateMachine.ChangeState(AIStateId.ChargeStation);
         }
         stateMachine.Update();
-        if (Input.GetKeyDown(KeyCode.Z))
+    }
+
+    public new void OnChargeStation()
+    {
+        var chargeStationCount = sensor.Filter(buffer, "ChargeStationLayer");
+        if (chargeStationCount > 0)
         {
-            Debug.Log($"{gameObject.name} in state {stateMachine.currentState}");
+            if (buffer[0].name.Equals(ChargeStation.name))
+            {
+                if ((transform.position - buffer[0].transform.position).magnitude <= 5.0f)
+                {
+                    var rechargeAudioSource = GameObject.Find("RechargeAudioSource").GetComponent<AudioSource>();
+                    if (!rechargeAudioSource.isPlaying)
+                        rechargeAudioSource.PlayOneShot(RechargeClip);
+                }
+            }
         }
+    }
+
+    public new void DuckDown()
+    {
+        AnimationController.SetBool("DuckingDown", true);
+    }
+
+    public void SwitchToBlendTree()
+    {
+        AnimationController.SetBool("DuckingDown", false);
     }
 
     public new void Shoot(GameObject shootObject, Player player = null)

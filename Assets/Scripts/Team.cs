@@ -8,11 +8,12 @@ public class Team
     private int Ceiling { get; set; }
     private List<Player> Players { get; set; }
     private long Score { get; set; }
-
-    public Team(int ceiling, Color teamColor)
+    public string TeamName { get; set; }
+    public Team(int ceiling, Color teamColor, string TeamName)
     {
         this.Ceiling = ceiling;
         this.TeamColor = teamColor;
+        this.TeamName = TeamName;
         Players = new List<Player>(ceiling);
     }
 

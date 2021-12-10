@@ -23,15 +23,17 @@ public class AISensoryMemory
 {
     public List<AIMemory> memories = new List<AIMemory>();
     GameObject[] characters;
+    private string layerName;
 
-    public AISensoryMemory(int maxPlayers)
+    public AISensoryMemory(int maxPlayers, string layerName)
     {
         characters = new GameObject[maxPlayers];
+        this.layerName = layerName;
     }
 
     public void UpdateSenses(AISensor sensor)
     {
-        int targets = sensor.Filter(characters, "PlayerLayer");
+        int targets = sensor.Filter(characters, layerName);
         for(int i=0; i<targets; ++i)
         {
             GameObject target = characters[i];
@@ -42,7 +44,7 @@ public class AISensoryMemory
     public void RefreshMemory(GameObject agent, GameObject target)
     {
         AIMemory memory = FetchMemories(target);
-        memory.gameObject = agent;
+        memory.gameObject = target;
         memory.posiiton = target.transform.position;
         memory.direction = target.transform.position - agent.transform.position;
         memory.distance = memory.direction.magnitude;
@@ -65,6 +67,6 @@ public class AISensoryMemory
     {
         memories.RemoveAll(memory => memory.Age > olderThan);
         memories.RemoveAll(memory => !memory.gameObject);
-        memories.RemoveAll(memory => !Configuration.RetreivePlayer(memory.gameObject).DeactivatedStatus());
+        // memories.RemoveAll(memory => !Configuration.RetreivePlayer(memory.gameObject).DeactivatedStatus());
     }
 }
