@@ -14,7 +14,8 @@ public class AIFindTargetState : AIState
     {
         agent.AnimationController.SetBool("DuckingDown", false);
         agent.weapon.FixRotation();
-        agent.navMeshAgent.stoppingDistance = 15.0f;
+        agent.navMeshAgent.stoppingDistance = 5.0f;
+        // agent.navMeshAgent.destination = GameObject.Find("SpotSkywalk").transform.position;
     }
 
     public void Exit(AIAgent agent)

@@ -44,12 +44,12 @@ public class Human : Player
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            transform.Rotate(0, 3, 0, Space.World);
+            transform.Rotate(0, 6, 0, Space.World);
         }
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.Rotate(0, -3, 0, Space.World);
+            transform.Rotate(0, -6, 0, Space.World);
         }
 
         if (Input.GetMouseButtonDown(0))
