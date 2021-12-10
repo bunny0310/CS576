@@ -23538,7 +23538,7 @@ MonoBehaviour:
   TimeRemaining: {fileID: 1039114300}
   RedScore: {fileID: 93503165}
   BlueScore: {fileID: 652091549}
-  TimeRemainingValue: 300
+  TimeRemainingValue: 15
   freeLookCamera: {fileID: 572951673}
   TimeRemainingCamera: {fileID: 1104718919}
 --- !u!4 &1962272827

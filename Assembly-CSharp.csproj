@@ -41,6 +41,8 @@
      <Compile Include="Assets\Scripts\EntryPoint.cs" />
      <Compile Include="Assets\Nokobot\Modern Guns - Handgun\_Demo Assets\SimpleShoot.cs" />
      <Compile Include="Assets\Shared\Scripts\SimpleCharacterMotor.cs" />
+     <Compile Include="Assets\Scripts\AI\AILocomotion.cs" />
+     <Compile Include="Assets\Scripts\AI\AIFindTargetState.cs" />
      <Compile Include="Assets\Scripts\Enumerations.cs" />
      <Compile Include="Assets\Scripts\AI\AIChaseBaseState.cs" />
      <Compile Include="Assets\Scripts\Configuration.cs" />
@@ -60,15 +62,14 @@
      <Compile Include="Assets\Scripts\AI\AIDeactivatedState.cs" />
      <Compile Include="Assets\Scripts\AI\WeaponIK.cs" />
      <Compile Include="Assets\Scripts\AI\AIIdleState.cs" />
+     <Compile Include="Assets\Scripts\AI\AIChargeStationState.cs" />
      <Compile Include="Assets\Scripts\AI\AISensoryMemory.cs" />
      <Compile Include="Assets\Shared\Scripts\SimpleCameraController.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Constants.cs" />
      <Compile Include="Assets\Scripts\DebugScripts\DebugDrawSphere.cs" />
      <Compile Include="Assets\Scripts\PlayerConfiguration.cs" />
-     <Compile Include="Assets\Scripts\AI\AILocomotion.cs" />
-     <Compile Include="Assets\Scripts\AI\AIFindTargetState.cs" />
-     <Compile Include="Assets\Scripts\AI\AIChargeStationState.cs" />
+     <Compile Include="Assets\Scripts\Scoreboard\Scoreboard.cs" />
      <None Include="Assets\SDF_BasicTrainingStage\PostProcessing\Shaders\StdLib.hlsl" />
      <None Include="Assets\SDF_BasicTrainingStage\PostProcessing\Shaders\Debug\Waveform.shader" />
      <None Include="Assets\SDF_BasicTrainingStage\PostProcessing\Shaders\Builtins\MultiScaleVOUpsample.compute" />

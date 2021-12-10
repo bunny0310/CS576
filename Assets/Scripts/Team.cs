@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Team
@@ -9,12 +10,14 @@ public class Team
     private List<Player> Players { get; set; }
     private long Score { get; set; }
     public string TeamName { get; set; }
+    public Dictionary<string, long> PlayerScores { get; set; }
     public Team(int ceiling, Color teamColor, string TeamName)
     {
         this.Ceiling = ceiling;
         this.TeamColor = teamColor;
         this.TeamName = TeamName;
         Players = new List<Player>(ceiling);
+        PlayerScores = new Dictionary<string, long>(ceiling);
     }
 
     public List<Player> GetPlayers()
@@ -27,6 +30,7 @@ public class Team
         try
         {
             Players.Add(player);
+            PlayerScores.Add(player.gameObject.name, 0);
             return true;
         } catch (Exception e)
         {
@@ -40,9 +44,10 @@ public class Team
         return Score;
     }
 
-    public void UpdateTeamScore (long score)
+    public void UpdateTeamScore (Player player, long score, long updatedScore)
     {
         Debug.Log("Updating score");
+        PlayerScores[player.gameObject.name] = updatedScore;
         Score += score;
     }
 }

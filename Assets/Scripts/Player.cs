@@ -69,10 +69,15 @@ public class Player : MonoBehaviour
         AnimationController.SetInteger("state", (int)ANIMATION.DuckDown);
     }
 
+    public long GetScore()
+    {
+        return Score;
+    }
+
     public void IncreaseScore(int score)
     {
         Score += score;
-        playerConfiguration.Team.UpdateTeamScore(score);
+        playerConfiguration.Team.UpdateTeamScore(this, score, Score);
     }
 
     public IEnumerator OmitLight(GameObject shootObject, Vector3 location)
@@ -132,8 +137,8 @@ public class Player : MonoBehaviour
                 player.DecreaseEnergy();
                 Debug.Log($"Energy reamining - {player.Energy}");
                 Debug.Log($"Deactivated status - {player.IsDeactivated}");
-                player.GetComponent<PlayerConfiguration>().Team.UpdateTeamScore(-150);
-                GetComponent<PlayerConfiguration>().Team.UpdateTeamScore(250);
+                player.IncreaseScore(-150);
+                IncreaseScore(250);
                 StartCoroutine(this.OmitLight(shootObject.transform.Find("CenterTag").gameObject, shootObject.transform.Find("CenterTag").position));
             }
             DecreasePulses();

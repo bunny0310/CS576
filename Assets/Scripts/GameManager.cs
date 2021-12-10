@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -101,33 +102,40 @@ public class GameManager : MonoBehaviour
     }
     public void Update()
     {
+        // switch scene if out of time
+        if (TimeRemainingValue <= 0)
+        {
+            SceneManager.LoadSceneAsync("Scoreboard");
+            return;
+        }
+
         if (TimeRemainingValue > 0)
         {
             TimeRemainingValue -= Time.deltaTime;
             DisplayTime(TimeRemainingValue);
-        }
 
-        RedScore.text = RedTeam.GetScore().ToString();
-        BlueScore.text = BlueTeam.GetScore().ToString();
+            RedScore.text = RedTeam.GetScore().ToString();
+            BlueScore.text = BlueTeam.GetScore().ToString();
 
-        if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
-        {
-            DeactivateCursor();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            ActivateCursor();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            currentCameraIndex++;
-            if (currentCameraIndex == cameras.Count)
+            if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
             {
-                currentCameraIndex = 0;
+                DeactivateCursor();
             }
-            SwitchCamera();
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                ActivateCursor();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                currentCameraIndex++;
+                if (currentCameraIndex == cameras.Count)
+                {
+                    currentCameraIndex = 0;
+                }
+                SwitchCamera();
+            }
         }
 
     }
